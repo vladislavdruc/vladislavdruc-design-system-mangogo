@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Checkbox — generated from checkboxs-structure-6.json
+   Variants: checked × indeterminate × size (sm/md) × text × supporting-text × state
+   ========================================================================== */
+
+.checkbox-field {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+.checkbox-field:has(input:disabled) { opacity: 0.4; cursor: not-allowed; }
+
+/* ── Hidden native input ── */
+.checkbox-field input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+}
+
+/* ── Visual box ── */
+.checkbox-field__box {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid rgba(28,28,28,0.28);
+  border-radius: 4px;
+  background: #FFFFFF;
+  transition: border-color 150ms ease, background 150ms ease, box-shadow 150ms ease;
+}
+
+/* Sizes */
+.checkbox-field--sm .checkbox-field__box { width: 16px; height: 16px; }
+.checkbox-field--md .checkbox-field__box { width: 20px; height: 20px; border-radius: 5px; }
+
+/* ── Checked ── */
+.checkbox-field input:checked + .checkbox-field__box {
+  background: #EC6724;
+  border-color: #EC6724;
+}
+
+/* Checkmark SVG-icon (inject via ::after or <svg> inside .box) */
+.checkbox-field input:checked + .checkbox-field__box::after {
+  content: '';
+  display: block;
+  width: 10px; height: 7px;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 7' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3.5L3.8 6 9 1' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+
+/* ── Indeterminate ── */
+.checkbox-field input:indeterminate + .checkbox-field__box {
+  background: #EC6724;
+  border-color: #EC6724;
+}
+.checkbox-field input:indeterminate + .checkbox-field__box::after {
+  content: '';
+  display: block;
+  width: 10px; height: 2px;
+  background: #FFFFFF;
+  border-radius: 1px;
+}
+
+/* ── Hover ── */
+.checkbox-field:hover input:not(:disabled) + .checkbox-field__box {
+  border-color: #EC6724;
+}
+
+/* ── Focus ── */
+.checkbox-field input:focus-visible + .checkbox-field__box {
+  border-color: #EC6724;
+  box-shadow: 0 0 0 4px rgba(236,103,36,0.16);
+}
+
+/* ── Label text ── */
+.checkbox-field__content { display: flex; flex-direction: column; gap: 2px; }
+
+.checkbox-field__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1C1C1C;
+  line-height: 1.43;
+}
+.checkbox-field--sm .checkbox-field__label { font-size: 14px; }
+.checkbox-field--md .checkbox-field__label { font-size: 16px; }
+
+.checkbox-field__support {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(28,28,28,0.55);
+  line-height: 1.43;
+}
+
+/* ── Without text (icon-only) ── */
+.checkbox-field:not(.checkbox-field--with-text) .checkbox-field__content {
+  display: none;
+}

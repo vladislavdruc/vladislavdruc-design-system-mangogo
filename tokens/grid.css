@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Grid system — design system tokens
+   Source: Grids collection → Style mode (Figma JSON export)
+   ──────────────────────────────────────────────────────────────────────────
+   12 columns, gutter 32px, stretch alignment (no fixed offset)
+   6  columns, gutter 32px, stretch alignment
+   ========================================================================== */
+
+:root {
+  --grid-columns:     12;
+  --grid-gutter:      32px;   /* gutterSize=32 from JSON */
+  --grid-gutter-sm:   16px;
+  --grid-gutter-xs:   12px;
+
+  /* Content widths */
+  --content-xs:       480px;
+  --content-sm:       640px;
+  --content-md:       960px;
+  --content-lg:       1216px;   /* table desktop w=1216 */
+  --content-xl:       1440px;   /* modal frame w=1440 */
+}
+
+/* ── Container ────────────────────────────────────────────────────────────── */
+.container {
+  width:          100%;
+  max-width:      var(--content-lg);
+  margin-inline:  auto;
+  padding-inline: var(--grid-gutter);
+}
+
+.container--sm  { max-width: var(--content-sm); }
+.container--md  { max-width: var(--content-md); }
+.container--xl  { max-width: var(--content-xl); }
+
+/* ── 12-column grid ──────────────────────────────────────────────────────── */
+.grid-12 {
+  display:               grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap:                   var(--grid-gutter);
+}
+
+/* ── 6-column grid ───────────────────────────────────────────────────────── */
+.grid-6 {
+  display:               grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap:                   var(--grid-gutter);
+}
+
+/* ── Column span helpers ─────────────────────────────────────────────────── */
+.col-1  { grid-column: span 1; }
+.col-2  { grid-column: span 2; }
+.col-3  { grid-column: span 3; }
+.col-4  { grid-column: span 4; }
+.col-6  { grid-column: span 6; }
+.col-8  { grid-column: span 8; }
+.col-9  { grid-column: span 9; }
+.col-12 { grid-column: span 12; }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .grid-12, .grid-6 { grid-template-columns: repeat(6, 1fr); gap: var(--grid-gutter-sm); }
+  .container        { padding-inline: var(--grid-gutter-sm); }
+}
+
+@media (max-width: 600px) {
+  .grid-12, .grid-6 { grid-template-columns: 1fr; gap: var(--grid-gutter-xs); }
+  .container        { padding-inline: var(--grid-gutter-xs); }
+  .col-1, .col-2, .col-3, .col-4, .col-6, .col-8, .col-9, .col-12
+                    { grid-column: span 1; }
+}

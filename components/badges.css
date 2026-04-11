@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Badge — generated from badges-structure-3.json
+   Variants: size (sm/md) × color × icon
+   ========================================================================== */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 9999px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ── Sizes ── */
+.badge--sm { padding: 2px 8px;  font-size: 12px; line-height: 1.5; }
+.badge--md { padding: 2px 10px; font-size: 14px; line-height: 1.43; }
+
+.badge--icon-only    { padding: 4px; }
+.badge--sm.badge--icon-only { padding: 3px; }
+
+/* ── Dot variant ── */
+.badge--dot::before {
+  content: '';
+  display: block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── X-close icon ── */
+.badge__close {
+  display: inline-flex;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 120ms ease;
+}
+.badge__close:hover { opacity: 1; }
+
+/* ── Colors ── */
+.badge--brand   { background: #FDEFE8; color: #C04B11; }
+.badge--warning { background: #FFFAEB; color: #B54708; }
+.badge--success { background: #ECFDF3; color: #027A48; }
+.badge--error   { background: #FEF3F2; color: #B42318; }
+.badge--gray    { background: #F2F4F7; color: #344054; }
+.badge--slate   { background: #F8FAFC; color: #475569; }
+.badge--sky     { background: #F0F9FF; color: #026AA2; }
+.badge--blue    { background: #EFF8FF; color: #1849A9; }
+.badge--indigo  { background: #EEF4FF; color: #3538CD; }
+.badge--purple  { background: #F9F5FF; color: #6941C6; }
+.badge--pink    { background: #FDF2FA; color: #C11574; }
+.badge--rose    { background: #FFF1F3; color: #C01048; }
+.badge--orange  { background: #FFF6ED; color: #C4320A; }

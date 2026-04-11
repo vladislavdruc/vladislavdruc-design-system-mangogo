@@ -1,0 +1,37 @@
+/* ==========================================================================
+   design-system/index.css
+   Master entry point — import this single file into your project
+   Usage:  @import 'design-system/index.css';
+           or <link rel="stylesheet" href="design-system/index.css">
+   ========================================================================== */
+
+/* ── 1. Fonts ────────────────────────────────────────────────────────────── */
+@import './base/fonts.css';
+
+/* ── 2. Tokens ───────────────────────────────────────────────────────────── */
+@import './tokens/colors.css';
+@import './tokens/typography.css';
+@import './tokens/spacing.css';
+@import './tokens/radius.css';
+@import './tokens/shadows.css';
+@import './tokens/grid.css';
+
+/* ── 3. Base reset ───────────────────────────────────────────────────────── */
+@import './base/reset.css';
+
+/* ── 4. Components ───────────────────────────────────────────────────────── */
+@import './components/badges.css';
+@import './components/badge-group.css';
+@import './components/buttons.css';
+@import './components/inputs.css';
+@import './components/checkbox.css';
+@import './components/toggle.css';
+@import './components/dropdown.css';
+@import './components/tooltip.css';
+@import './components/toast-alert.css';
+@import './components/loader.css';
+@import './components/navbar.css';
+@import './components/footer.css';
+@import './components/pagination.css';
+@import './components/table.css';
+@import './components/modal-popup.css';

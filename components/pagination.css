@@ -1,0 +1,322 @@
+/* ==========================================================================
+   Pagination — design system component
+   Sources: pagination-desktop-mobile-structure.json +
+            pagination-dot-brand-sm-carousel-structure.json
+   ──────────────────────────────────────────────────────────────────────────
+   Variants:
+   1. Mobile  — "← Previous | Page 1 of 10 | Next →" bar
+   2. Desktop — numbered page buttons
+   3. Dots    — carousel dot indicators (Brand color)
+   ========================================================================== */
+
+/* ==========================================================================
+   1. PAGINATION MOBILE
+   Source: w=375, h=60, border top 1px #E5E5E5,
+           padding=12 16, layout=row space-between center
+           text: Inter 14px 500, color=#404040
+   ========================================================================== */
+
+.pagination-mobile {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  width:           100%;
+  max-width:       375px;          /* w=375 from JSON */
+  height:          60px;           /* h=60 from JSON */
+  padding:         12px 16px;      /* padding from JSON */
+  border-top:      1px solid #E5E5E5; /* border from JSON */
+  background:      #FFFFFF;
+  font-family:     var(--font-body, 'Inter', sans-serif);
+}
+
+.pagination-mobile__details {
+  font-size:       14px;           /* size-14 from JSON */
+  font-weight:     500;            /* weight-500 from JSON */
+  color:           #404040;        /* #404040 from JSON */
+  user-select:     none;
+}
+
+/* Prev / Next buttons reuse .btn from buttons.css */
+.pagination-mobile .btn {
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   2. PAGINATION DESKTOP
+   Numbered page buttons — inferred from Pagination/Desktop component name
+   ========================================================================== */
+
+.pagination {
+  display:         flex;
+  align-items:     center;
+  gap:             var(--space-1);
+  font-family:     var(--font-body, 'Inter', sans-serif);
+}
+
+/* Page button */
+.pagination__item {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  min-width:       36px;
+  height:          36px;
+  padding:         0 var(--space-2);
+  border-radius:   var(--radius-sm);
+  border:          1px solid transparent;
+  font-size:       14px;
+  font-weight:     500;
+  color:           #404040;
+  background:      transparent;
+  cursor:          pointer;
+  user-select:     none;
+  text-decoration: none;
+  transition:      background 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.pagination__item:hover {
+  background:      #FDEFE8;        /* Brand/50 */
+  color:           var(--color-primary, #EC6724);
+}
+
+/* Active / current page */
+.pagination__item--active,
+.pagination__item[aria-current="page"] {
+  background:      var(--color-primary, #EC6724);
+  color:           #FFFFFF;
+  border-color:    var(--color-primary, #EC6724);
+  pointer-events:  none;
+}
+
+/* Disabled (prev on page 1 / next on last page) */
+.pagination__item--disabled,
+.pagination__item[aria-disabled="true"] {
+  opacity:         0.4;
+  pointer-events:  none;
+  cursor:          not-allowed;
+}
+
+/* Ellipsis separator */
+.pagination__ellipsis {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  min-width:       36px;
+  height:          36px;
+  font-size:       14px;
+  color:           #A3A3A3;
+  user-select:     none;
+  pointer-events:  none;
+}
+
+/* Prev / Next arrow buttons */
+.pagination__prev,
+.pagination__next {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             var(--space-1);
+  padding:         0 var(--space-3);
+  height:          36px;
+  border-radius:   var(--radius-sm);
+  border:          1px solid #E5E5E5;
+  font-size:       14px;
+  font-weight:     500;
+  color:           #404040;
+  background:      #FFFFFF;
+  cursor:          pointer;
+  user-select:     none;
+  text-decoration: none;
+  transition:      background 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.pagination__prev:hover,
+.pagination__next:hover {
+  background:      #FDEFE8;
+  border-color:    var(--color-primary, #EC6724);
+  color:           var(--color-primary, #EC6724);
+}
+
+.pagination__prev[aria-disabled="true"],
+.pagination__next[aria-disabled="true"] {
+  opacity:         0.4;
+  pointer-events:  none;
+}
+
+/* ==========================================================================
+   3. CAROUSEL + DOT PAGINATION
+   Source: carousel-image-black w=640 h=400 radius=8
+           pagination-dot-group (Brand color, sm size)
+           2x _carousel-arrow
+   ========================================================================== */
+
+/* Carousel wrapper */
+.carousel {
+  position:        relative;
+  width:           100%;
+  max-width:       640px;          /* w=640 from JSON */
+  aspect-ratio:    640 / 400;      /* h=400 from JSON */
+  border-radius:   8px;            /* radius=8 from JSON */
+  overflow:        hidden;
+  background:      #1C1C1C;        /* Base/Black from design tokens */
+}
+
+/* Slides track */
+.carousel__track {
+  display:         flex;
+  height:          100%;
+  transition:      transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.carousel__slide {
+  flex:            0 0 100%;
+  height:          100%;
+  object-fit:      cover;
+}
+
+.carousel__slide img {
+  width:           100%;
+  height:          100%;
+  object-fit:      cover;
+  display:         block;
+}
+
+/* Arrow buttons (_carousel-arrow from JSON) */
+.carousel__arrow {
+  position:        absolute;
+  top:             50%;
+  transform:       translateY(-50%);
+  z-index:         2;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           40px;
+  height:          40px;
+  border-radius:   var(--radius-full);
+  background:      rgba(255, 255, 255, 0.9);
+  border:          none;
+  cursor:          pointer;
+  color:           #1C1C1C;
+  box-shadow:      0 2px 8px rgba(0,0,0,0.15);
+  transition:      background 140ms ease, transform 140ms ease;
+}
+
+.carousel__arrow:hover {
+  background:      #FFFFFF;
+  transform:       translateY(-50%) scale(1.05);
+}
+
+.carousel__arrow--prev { left:  var(--space-3); }
+.carousel__arrow--next { right: var(--space-3); }
+
+.carousel__arrow[disabled] {
+  opacity:         0.4;
+  pointer-events:  none;
+}
+
+/* Dot pagination group (pagination-dot-group from JSON) */
+.carousel__dots {
+  position:        absolute;
+  bottom:          var(--space-3);
+  left:            50%;
+  transform:       translateX(-50%);
+  display:         flex;
+  align-items:     center;
+  gap:             var(--space-1);
+  z-index:         2;
+}
+
+/* Single dot — Brand/sm */
+.carousel__dot {
+  width:           8px;            /* sm size */
+  height:          8px;
+  border-radius:   var(--radius-full);
+  background:      rgba(255, 255, 255, 0.5);
+  border:          none;
+  padding:         0;
+  cursor:          pointer;
+  transition:      background 200ms ease, width 200ms ease;
+  flex-shrink:     0;
+}
+
+.carousel__dot:hover {
+  background:      rgba(255, 255, 255, 0.8);
+}
+
+/* Active dot — Brand color */
+.carousel__dot--active,
+.carousel__dot[aria-selected="true"] {
+  background:      var(--color-primary, #EC6724);  /* Brand/500 */
+  width:           20px;           /* expands on active */
+}
+
+/* ── Dot color variants ── */
+.carousel--brand .carousel__dot--active  { background: var(--color-primary, #EC6724); }
+.carousel--dark  .carousel__dot--active  { background: #1C1C1C; }
+.carousel--white .carousel__dot--active  { background: #FFFFFF; }
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  .pagination {
+    gap: 2px;
+  }
+  .pagination__item {
+    min-width: 32px;
+    height:    32px;
+  }
+  /* Hide page numbers on very small screens, show only prev/next */
+  .pagination__item:not(.pagination__item--active):not(.pagination__prev):not(.pagination__next) {
+    display: none;
+  }
+  .pagination__item--active { display: inline-flex; }
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel__track  { transition: none; }
+  .carousel__arrow  { transition: none; }
+  .carousel__dot    { transition: none; }
+}
+
+/* ==========================================================================
+   HTML Usage Examples
+   ────────────────────────────────────────────────────────────────────────────
+
+   Mobile pagination:
+   <div class="pagination-mobile">
+     <button class="btn btn--secondary btn--sm">← Previous</button>
+     <span class="pagination-mobile__details">Page 1 of 10</span>
+     <button class="btn btn--secondary btn--sm">Next →</button>
+   </div>
+
+   Desktop pagination:
+   <nav class="pagination" aria-label="Pagination">
+     <button class="pagination__prev">← Previous</button>
+     <button class="pagination__item" aria-current="page">1</button>
+     <button class="pagination__item">2</button>
+     <button class="pagination__item">3</button>
+     <span class="pagination__ellipsis">…</span>
+     <button class="pagination__item">10</button>
+     <button class="pagination__next">Next →</button>
+   </nav>
+
+   Carousel:
+   <div class="carousel carousel--brand">
+     <div class="carousel__track">
+       <div class="carousel__slide"><img src="car.jpg" alt="Toyota Camry"></div>
+       <div class="carousel__slide"><img src="car2.jpg" alt="BMW X5"></div>
+     </div>
+     <button class="carousel__arrow carousel__arrow--prev" aria-label="Previous">‹</button>
+     <button class="carousel__arrow carousel__arrow--next" aria-label="Next">›</button>
+     <div class="carousel__dots" role="tablist">
+       <button class="carousel__dot carousel__dot--active" aria-selected="true" aria-label="Slide 1"></button>
+       <button class="carousel__dot" aria-label="Slide 2"></button>
+       <button class="carousel__dot" aria-label="Slide 3"></button>
+     </div>
+   </div>
+
+   ========================================================================== */

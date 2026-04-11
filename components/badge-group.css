@@ -1,0 +1,52 @@
+/* ==========================================================================
+   Badge Group — generated from badge-group-structure-2.json
+   Variants: badge-position (leading/trailing) × icon × size × color
+   ========================================================================== */
+
+.badge-group {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid rgba(28,28,28,0.08);
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  background: #FFFFFF;
+}
+
+.badge-group--md { height: 28px; }
+.badge-group--lg { height: 32px; }
+
+/* ── Leading badge ── */
+.badge-group--leading .badge-group__badge {
+  padding: 0 8px;
+  border-radius: 9999px 0 0 9999px;
+}
+
+/* ── Trailing badge ── */
+.badge-group--trailing .badge-group__badge {
+  padding: 0 8px;
+  border-radius: 0 9999px 9999px 0;
+}
+
+.badge-group__label {
+  padding: 0 10px;
+  color: #1C1C1C;
+}
+
+.badge-group__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ── Colors ── */
+.badge-group__badge--brand   { background: #FDEFE8; color: #C04B11; }
+.badge-group__badge--gray    { background: #F2F4F7; color: #344054; }
+.badge-group__badge--error   { background: #FEF3F2; color: #B42318; }
+.badge-group__badge--warning { background: #FFFAEB; color: #B54708; }
+.badge-group__badge--success { background: #ECFDF3; color: #027A48; }

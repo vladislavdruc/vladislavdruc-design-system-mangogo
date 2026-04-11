@@ -1,0 +1,279 @@
+/* ==========================================================================
+   Tooltip — generated from tooltip-structure.json
+   Design system: Brand #EC6724 | Fonts: Inter
+   Variants: theme × arrow-position × supporting-text
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Wrapper — the trigger element that owns the tooltip
+   -------------------------------------------------------------------------- */
+.tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   Base tooltip bubble
+   -------------------------------------------------------------------------- */
+.tooltip {
+  --tooltip-bg:           #1C1C1C;          /* default: dark */
+  --tooltip-text:         #FFFFFF;
+  --tooltip-support-text: rgba(255,255,255,0.72);
+  --tooltip-border:       transparent;
+  --tooltip-radius:       8px;
+  --tooltip-padding:      8px 12px;
+  --tooltip-gap:          4px;
+  --tooltip-shadow:       0 4px 8px rgba(0,0,0,0.12), 0 12px 16px rgba(0,0,0,0.08);
+  --tooltip-arrow-size:   6px;
+  --tooltip-max-width:    240px;
+  --tooltip-z:            1000;
+
+  position: absolute;
+  z-index: var(--tooltip-z);
+  display: inline-flex;
+  flex-direction: column;
+  gap: var(--tooltip-gap);
+  max-width: var(--tooltip-max-width);
+  padding: var(--tooltip-padding);
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
+  border-radius: var(--tooltip-radius);
+  border: 1px solid var(--tooltip-border);
+  box-shadow: var(--tooltip-shadow);
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+  pointer-events: none;
+
+  /* entry animation */
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.tooltip.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Arrow base */
+.tooltip::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: var(--tooltip-arrow-size) solid transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Text content
+   -------------------------------------------------------------------------- */
+.tooltip__label {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--tooltip-text);
+}
+
+.tooltip__support {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--tooltip-support-text);
+}
+
+/* Hide supporting text when not needed */
+.tooltip:not(.tooltip--with-support) .tooltip__support {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   THEME: Dark (default — matches Figma "theme-dark")
+   -------------------------------------------------------------------------- */
+.tooltip--dark {
+  --tooltip-bg:           #1C1C1C;
+  --tooltip-text:         #FFFFFF;
+  --tooltip-support-text: rgba(255,255,255,0.65);
+  --tooltip-border:       transparent;
+  --tooltip-shadow:       0 4px 8px rgba(0,0,0,0.18), 0 12px 16px rgba(0,0,0,0.12);
+}
+
+/* --------------------------------------------------------------------------
+   THEME: Light (matches Figma "theme-light")
+   -------------------------------------------------------------------------- */
+.tooltip--light {
+  --tooltip-bg:           #FFFFFF;
+  --tooltip-text:         #1C1C1C;
+  --tooltip-support-text: rgba(28,28,28,0.55);
+  --tooltip-border:       rgba(28,28,28,0.12);
+  --tooltip-shadow:       0 1px 2px rgba(0,0,0,0.06), 0 4px 8px rgba(0,0,0,0.08);
+}
+
+/* --------------------------------------------------------------------------
+   ARROW POSITIONS
+   All 7 variants from Figma: bottom-center, top-center, bottom-left,
+   bottom-right, left, right, none
+   -------------------------------------------------------------------------- */
+
+/* ── arrow-bottom-center ── tooltip is ABOVE trigger, arrow points down ── */
+.tooltip--arrow-bottom-center {
+  bottom: calc(100% + var(--tooltip-arrow-size) + 4px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+}
+.tooltip--arrow-bottom-center.is-visible {
+  transform: translateX(-50%) scale(1);
+}
+.tooltip--arrow-bottom-center::after {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-top-color: var(--tooltip-bg);
+  border-bottom: none;
+}
+.tooltip--light.tooltip--arrow-bottom-center::after {
+  border-top-color: var(--tooltip-bg);
+}
+
+/* ── arrow-top-center ── tooltip is BELOW trigger, arrow points up ── */
+.tooltip--arrow-top-center {
+  top: calc(100% + var(--tooltip-arrow-size) + 4px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+}
+.tooltip--arrow-top-center.is-visible {
+  transform: translateX(-50%) scale(1);
+}
+.tooltip--arrow-top-center::after {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-bottom-color: var(--tooltip-bg);
+  border-top: none;
+}
+
+/* ── arrow-bottom-left ── tooltip above, arrow at bottom-left ── */
+.tooltip--arrow-bottom-left {
+  bottom: calc(100% + var(--tooltip-arrow-size) + 4px);
+  left: 0;
+  transform: translateX(0) scale(0.95);
+}
+.tooltip--arrow-bottom-left.is-visible {
+  transform: translateX(0) scale(1);
+}
+.tooltip--arrow-bottom-left::after {
+  top: 100%;
+  left: 16px;
+  border-top-color: var(--tooltip-bg);
+  border-bottom: none;
+}
+
+/* ── arrow-bottom-right ── tooltip above, arrow at bottom-right ── */
+.tooltip--arrow-bottom-right {
+  bottom: calc(100% + var(--tooltip-arrow-size) + 4px);
+  right: 0;
+  left: auto;
+  transform: translateX(0) scale(0.95);
+}
+.tooltip--arrow-bottom-right.is-visible {
+  transform: translateX(0) scale(1);
+}
+.tooltip--arrow-bottom-right::after {
+  top: 100%;
+  right: 16px;
+  border-top-color: var(--tooltip-bg);
+  border-bottom: none;
+}
+
+/* ── arrow-left ── tooltip to the RIGHT, arrow points left ── */
+.tooltip--arrow-left {
+  top: 50%;
+  left: calc(100% + var(--tooltip-arrow-size) + 4px);
+  transform: translateY(-50%) scale(0.95);
+}
+.tooltip--arrow-left.is-visible {
+  transform: translateY(-50%) scale(1);
+}
+.tooltip--arrow-left::after {
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  border-right-color: var(--tooltip-bg);
+  border-left: none;
+}
+
+/* ── arrow-right ── tooltip to the LEFT, arrow points right ── */
+.tooltip--arrow-right {
+  top: 50%;
+  right: calc(100% + var(--tooltip-arrow-size) + 4px);
+  left: auto;
+  transform: translateY(-50%) scale(0.95);
+}
+.tooltip--arrow-right.is-visible {
+  transform: translateY(-50%) scale(1);
+}
+.tooltip--arrow-right::after {
+  top: 50%;
+  left: 100%;
+  transform: translateY(-50%);
+  border-left-color: var(--tooltip-bg);
+  border-right: none;
+}
+
+/* ── arrow-none ── no arrow, floating near trigger ── */
+.tooltip--arrow-none {
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.95);
+}
+.tooltip--arrow-none.is-visible {
+  transform: translateX(-50%) scale(1);
+}
+.tooltip--arrow-none::after {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   JS toggle helper — show tooltip on hover/focus
+   -------------------------------------------------------------------------- */
+/*
+  Usage (HTML):
+
+  <div class="tooltip-wrapper">
+    <button aria-describedby="tip-1">Hover me</button>
+    <div class="tooltip tooltip--dark tooltip--arrow-bottom-center" id="tip-1" role="tooltip">
+      <span class="tooltip__label">This is a tooltip</span>
+    </div>
+  </div>
+
+  With supporting text:
+  <div class="tooltip tooltip--light tooltip--arrow-top-center tooltip--with-support" role="tooltip">
+    <span class="tooltip__label">Tooltip title</span>
+    <span class="tooltip__support">Supporting text goes here</span>
+  </div>
+
+  JS toggle (minimal):
+  const wrappers = document.querySelectorAll('.tooltip-wrapper');
+  wrappers.forEach(wrapper => {
+    const tip = wrapper.querySelector('.tooltip');
+    const show = () => tip.classList.add('is-visible');
+    const hide = () => tip.classList.remove('is-visible');
+    wrapper.addEventListener('mouseenter', show);
+    wrapper.addEventListener('mouseleave', hide);
+    wrapper.addEventListener('focusin',    show);
+    wrapper.addEventListener('focusout',   hide);
+  });
+*/
+
+/* --------------------------------------------------------------------------
+   Accessibility
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    transition: opacity 80ms linear;
+    transform: none !important;
+  }
+}

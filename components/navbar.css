@@ -1,0 +1,371 @@
+/* ==========================================================================
+   Header / Navbar — design system component
+   Source: header-navigation-mobile-desktop-dropdown-open-close-structure.json
+   ──────────────────────────────────────────────────────────────────────────
+   Desktop: h=80, bg=#fff, border-bottom 1px #F5F5F5
+   Container: max-width=1280, padding 0 32px
+   Layout: logo + nav (gap=32) | actions (Log in + Sign up)
+   Nav items gap: 20px
+   Mobile: logo + hamburger → full-sheet menu with accordion dropdowns
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Navbar wrapper
+   -------------------------------------------------------------------------- */
+
+.navbar {
+  width:           100%;
+  height:          80px;             /* h=80 from JSON */
+  background:      #FFFFFF;          /* bg from JSON */
+  border-bottom:   1px solid #F5F5F5; /* border from JSON */
+  position:        sticky;
+  top:             0;
+  z-index:         100;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   Inner container
+   Source: container w=1280, padding=0 32, row space-between center
+   -------------------------------------------------------------------------- */
+
+.navbar__container {
+  width:           100%;
+  max-width:       1280px;           /* w=1280 from JSON */
+  padding:         0 32px;           /* padding from JSON */
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+}
+
+/* --------------------------------------------------------------------------
+   Left side: logo + nav
+   Source: content w=539, gap=32
+   -------------------------------------------------------------------------- */
+
+.navbar__left {
+  display:         flex;
+  align-items:     center;
+  gap:             32px;             /* gap-32 from JSON */
+}
+
+/* --------------------------------------------------------------------------
+   Logo
+   Source: logo w=139 h=32, logotype vector color=#1C1C1C
+   -------------------------------------------------------------------------- */
+
+.navbar__logo {
+  display:         flex;
+  align-items:     center;
+  height:          32px;
+  text-decoration: none;
+  color:           #1C1C1C;          /* color from JSON */
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       18px;
+  font-weight:     700;
+  white-space:     nowrap;
+  flex-shrink:     0;
+}
+
+.navbar__logo svg {
+  height:          32px;
+  width:           auto;
+  color:           #1C1C1C;
+}
+
+/* --------------------------------------------------------------------------
+   Navigation links
+   Source: navigation gap=20, items: button + 2x dropdown trigger + button
+   -------------------------------------------------------------------------- */
+
+.navbar__nav {
+  display:         flex;
+  align-items:     center;
+  gap:             20px;             /* gap-20 from JSON */
+  list-style:      none;
+  margin:          0;
+  padding:         0;
+}
+
+.navbar__nav-item {
+  position:        relative;
+}
+
+/* Plain nav link */
+.navbar__nav-link {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             4px;
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       16px;
+  font-weight:     500;
+  color:           #1C1C1C;
+  text-decoration: none;
+  padding:         4px 0;
+  border:          none;
+  background:      transparent;
+  cursor:          pointer;
+  white-space:     nowrap;
+  transition:      color 140ms ease;
+}
+
+.navbar__nav-link:hover {
+  color:           var(--color-primary, #EC6724);
+}
+
+/* Dropdown trigger (_dropdown-header-navigation-trigger from JSON) */
+.navbar__nav-link--dropdown .navbar__nav-chevron {
+  width:           16px;
+  height:          16px;
+  transition:      transform 180ms ease;
+  color:           #737373;
+}
+
+.navbar__nav-item--open .navbar__nav-link--dropdown .navbar__nav-chevron {
+  transform:       rotate(180deg);
+}
+
+/* Nav dropdown panel (mega-menu / simple list) */
+.navbar__dropdown {
+  position:        absolute;
+  top:             calc(100% + 8px);
+  left:            0;
+  min-width:       240px;
+  background:      #FFFFFF;
+  border:          1px solid #E5E5E5;
+  border-radius:   8px;
+  box-shadow:
+    0 4px 6px  rgba(0, 0, 0, 0.03),
+    0 12px 16px rgba(0, 0, 0, 0.08);
+  padding:         8px 0;
+  z-index:         200;
+  animation:       navbar-dropdown-open 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar__dropdown[hidden] { display: none; }
+
+@keyframes navbar-dropdown-open {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Dropdown item with icon+description (from screenshot) */
+.navbar__dropdown-item {
+  display:         flex;
+  align-items:     flex-start;
+  gap:             12px;
+  padding:         10px 16px;
+  text-decoration: none;
+  cursor:          pointer;
+  transition:      background 120ms ease;
+}
+
+.navbar__dropdown-item:hover {
+  background:      #FDEFE8;          /* Brand/50 */
+}
+
+.navbar__dropdown-item-icon {
+  width:           36px;
+  height:          36px;
+  border-radius:   var(--radius-sm);
+  background:      #FDEFE8;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  flex-shrink:     0;
+  color:           var(--color-primary, #EC6724);
+}
+
+.navbar__dropdown-item-title {
+  font-size:       14px;
+  font-weight:     600;
+  color:           #1C1C1C;
+  line-height:     1.4;
+}
+
+.navbar__dropdown-item-desc {
+  font-size:       13px;
+  font-weight:     400;
+  color:           #737373;
+  line-height:     1.4;
+  margin-top:      2px;
+}
+
+/* --------------------------------------------------------------------------
+   Right side: actions (_navigation-actions from JSON)
+   Log in (ghost) + Sign up (primary brand button)
+   -------------------------------------------------------------------------- */
+
+.navbar__actions {
+  display:         flex;
+  align-items:     center;
+  gap:             12px;
+  flex-shrink:     0;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile hamburger toggle
+   -------------------------------------------------------------------------- */
+
+.navbar__hamburger {
+  display:         none;
+  flex-direction:  column;
+  justify-content: center;
+  gap:             5px;
+  width:           40px;
+  height:          40px;
+  padding:         8px;
+  border:          none;
+  background:      transparent;
+  cursor:          pointer;
+  border-radius:   var(--radius-sm);
+  transition:      background 140ms ease;
+}
+
+.navbar__hamburger:hover { background: #F5F5F5; }
+
+.navbar__hamburger-line {
+  width:           20px;
+  height:          2px;
+  background:      #1C1C1C;
+  border-radius:   2px;
+  transition:      transform 200ms ease, opacity 200ms ease;
+}
+
+/* Hamburger → X animation */
+.navbar--menu-open .navbar__hamburger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.navbar--menu-open .navbar__hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+.navbar--menu-open .navbar__hamburger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile menu sheet (from screenshot: full-width panel, accordion nav)
+   -------------------------------------------------------------------------- */
+
+.navbar__mobile-menu {
+  display:         none;
+  position:        fixed;
+  top:             80px;
+  left:            0;
+  right:           0;
+  bottom:          0;
+  background:      #FFFFFF;
+  z-index:         99;
+  overflow-y:      auto;
+  flex-direction:  column;
+  padding:         0 0 var(--space-8);
+  animation:       navbar-mobile-open 200ms ease;
+}
+
+@keyframes navbar-mobile-open {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.navbar--menu-open .navbar__mobile-menu {
+  display: flex;
+}
+
+/* Mobile nav item */
+.navbar__mobile-nav-item {
+  border-bottom: 1px solid #F5F5F5;
+}
+
+.navbar__mobile-nav-link {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  padding:         16px 20px;
+  font-size:       16px;
+  font-weight:     500;
+  color:           #1C1C1C;
+  text-decoration: none;
+  border:          none;
+  background:      transparent;
+  width:           100%;
+  cursor:          pointer;
+  text-align:      left;
+}
+
+/* Mobile accordion sub-menu */
+.navbar__mobile-submenu {
+  background:      #FAFAFA;
+  padding:         8px 0;
+}
+
+.navbar__mobile-submenu-item {
+  display:         flex;
+  align-items:     flex-start;
+  gap:             12px;
+  padding:         12px 20px 12px 32px;
+  text-decoration: none;
+  transition:      background 120ms ease;
+}
+
+.navbar__mobile-submenu-item:hover {
+  background:      #FDEFE8;
+}
+
+/* Mobile actions (Sign up + Log in at bottom) */
+.navbar__mobile-actions {
+  display:         flex;
+  flex-direction:  column;
+  gap:             12px;
+  padding:         20px;
+  margin-top:      auto;
+}
+
+/* Mobile footer links (About us, Press, etc.) */
+.navbar__mobile-footer-links {
+  display:         grid;
+  grid-template-columns: 1fr 1fr;
+  gap:             4px 0;
+  padding:         12px 20px;
+  border-top:      1px solid #F5F5F5;
+}
+
+.navbar__mobile-footer-link {
+  font-size:       14px;
+  color:           #737373;
+  text-decoration: none;
+  padding:         8px 0;
+  transition:      color 120ms ease;
+}
+
+.navbar__mobile-footer-link:hover {
+  color: var(--color-primary, #EC6724);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive breakpoints
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .navbar__nav,
+  .navbar__actions { display: none; }
+  .navbar__hamburger { display: flex; }
+}
+
+@media (max-width: 480px) {
+  .navbar__container { padding: 0 16px; }
+  .navbar { height: 64px; }
+  .navbar__mobile-menu { top: 64px; }
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar__dropdown,
+  .navbar__mobile-menu { animation: none; }
+  .navbar__hamburger-line,
+  .navbar__nav-chevron  { transition: none; }
+}

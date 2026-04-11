@@ -1,0 +1,76 @@
+/* ==========================================================================
+   Typography — design system tokens
+   Source: Typography collection → Style mode (Figma JSON export)
+   ──────────────────────────────────────────────────────────────────────────
+   Font families:
+     Unbounded  → Display 2xl / xl / lg  (72px / 60px / 48px)  — display only
+     Inter      → Display md–xs + all Text sizes                — body/UI
+   ========================================================================== */
+
+/* ── Google Fonts load ────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-display: 'Unbounded', sans-serif;
+  --font-body:    'Inter', sans-serif;
+
+  /* ── Type scale (px values from JSON, converted to rem) ──────────────── */
+
+  /* Display — Unbounded (48px+) */
+  --text-display-2xl: 4.5rem;    /* 72px  — Display 2xl */
+  --text-display-xl:  3.75rem;   /* 60px  — Display xl  */
+  --text-display-lg:  3rem;      /* 48px  — Display lg  */
+
+  /* Display — Inter (below 48px) */
+  --text-display-md:  2.25rem;   /* 36px  — Display md  */
+  --text-display-sm:  1.875rem;  /* 30px  — Display sm  */
+  --text-display-xs:  1.5rem;    /* 24px  — Display xs  */
+
+  /* Text — Inter */
+  --text-xl:          1.25rem;   /* 20px  — Text xl  */
+  --text-lg:          1.125rem;  /* 18px  — Text lg  */
+  --text-md:          1rem;      /* 16px  — Text md  */
+  --text-sm:          0.875rem;  /* 14px  — Text sm  */
+
+  /* ── Line heights (from JSON, percent → unitless) ─────────────────────── */
+  --lh-display-2xl:   1.25;    /* 125%  */
+  --lh-display-xl:    1.30;    /* 130%  */
+  --lh-display-lg:    1.35;    /* 135%  */
+  --lh-display-md:    1.40;    /* 140%  */
+  --lh-display-sm:    1.40;
+  --lh-display-xs:    1.40;
+  --lh-text:          1.40;    /* 140%  */
+  --lh-text-sm:       1.50;    /* 150%  */
+
+  /* ── Letter spacing ──────────────────────────────────────────────────── */
+  --ls-display:       0.01em;  /* 1% — Unbounded display sizes */
+  --ls-body:          0;       /* 0% — Inter body sizes        */
+
+  /* ── Font weights ────────────────────────────────────────────────────── */
+  --fw-regular:   400;
+  --fw-medium:    500;
+  --fw-semibold:  600;
+  --fw-bold:      700;
+}
+
+/* ── Utility classes ─────────────────────────────────────────────────────── */
+
+/* Unbounded — display sizes only */
+.text-display-2xl { font-family: var(--font-display); font-size: var(--text-display-2xl); line-height: var(--lh-display-2xl); letter-spacing: var(--ls-display); }
+.text-display-xl  { font-family: var(--font-display); font-size: var(--text-display-xl);  line-height: var(--lh-display-xl);  letter-spacing: var(--ls-display); }
+.text-display-lg  { font-family: var(--font-display); font-size: var(--text-display-lg);  line-height: var(--lh-display-lg);  letter-spacing: var(--ls-display); }
+
+/* Inter — md and below */
+.text-display-md { font-family: var(--font-body); font-size: var(--text-display-md); line-height: var(--lh-display-md); }
+.text-display-sm { font-family: var(--font-body); font-size: var(--text-display-sm); line-height: var(--lh-display-sm); }
+.text-display-xs { font-family: var(--font-body); font-size: var(--text-display-xs); line-height: var(--lh-display-xs); }
+.text-xl         { font-family: var(--font-body); font-size: var(--text-xl);         line-height: var(--lh-text); }
+.text-lg         { font-family: var(--font-body); font-size: var(--text-lg);         line-height: var(--lh-text); }
+.text-md         { font-family: var(--font-body); font-size: var(--text-md);         line-height: var(--lh-text); }
+.text-sm         { font-family: var(--font-body); font-size: var(--text-sm);         line-height: var(--lh-text-sm); }
+
+/* Weight modifiers */
+.fw-regular  { font-weight: var(--fw-regular); }
+.fw-medium   { font-weight: var(--fw-medium); }
+.fw-semibold { font-weight: var(--fw-semibold); }
+.fw-bold     { font-weight: var(--fw-bold); }

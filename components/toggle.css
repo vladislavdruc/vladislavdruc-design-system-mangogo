@@ -1,0 +1,109 @@
+/* ==========================================================================
+   Toggle — generated from toggles-structure-7.json
+   Variants: pressed (true/false) × size (sm/md) × theme (light/dark) × state
+   ========================================================================== */
+
+.toggle {
+  --toggle-bg-off:    rgba(28,28,28,0.16);
+  --toggle-bg-on:     #EC6724;
+  --toggle-thumb:     #FFFFFF;
+  --toggle-transition: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── Hide native input ── */
+.toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+/* ── Track ── */
+.toggle__track {
+  border-radius: 9999px;
+  background: var(--toggle-bg-off);
+  transition: background var(--toggle-transition);
+  position: relative;
+}
+
+/* ── Thumb ── */
+.toggle__thumb {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) translateX(0);
+  border-radius: 50%;
+  background: var(--toggle-thumb);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  transition: transform var(--toggle-transition), box-shadow var(--toggle-transition);
+}
+
+/* ── Sizes ── */
+/* sm — 32×18 track, 14px thumb */
+.toggle--sm .toggle__track { width: 32px; height: 18px; }
+.toggle--sm .toggle__thumb { width: 14px; height: 14px; left: 2px; }
+
+/* md — 44×24 track, 20px thumb */
+.toggle--md .toggle__track { width: 44px; height: 24px; }
+.toggle--md .toggle__thumb { width: 20px; height: 20px; left: 2px; }
+
+/* ── Pressed / Checked ── */
+.toggle input:checked ~ .toggle__track {
+  background: var(--toggle-bg-on);
+}
+.toggle--sm input:checked ~ .toggle__track .toggle__thumb,
+.toggle--sm input:checked + .toggle__track .toggle__thumb {
+  transform: translateY(-50%) translateX(14px);
+}
+.toggle--md input:checked ~ .toggle__track .toggle__thumb,
+.toggle--md input:checked + .toggle__track .toggle__thumb {
+  transform: translateY(-50%) translateX(20px);
+}
+
+/* Rewrite thumb via sibling trick — track contains thumb */
+.toggle input:checked + .toggle__track > .toggle__thumb {
+  transform: translateY(-50%);
+  /* horizontal shift via left: */
+}
+.toggle--sm input:checked + .toggle__track > .toggle__thumb { left: calc(100% - 16px); }
+.toggle--md input:checked + .toggle__track > .toggle__thumb { left: calc(100% - 22px); }
+
+/* ── Hover ── */
+.toggle:hover input:not(:disabled) + .toggle__track {
+  filter: brightness(0.92);
+}
+
+/* ── Focus ── */
+.toggle input:focus-visible + .toggle__track {
+  box-shadow: 0 0 0 4px rgba(236,103,36,0.20);
+}
+
+/* ── Disabled ── */
+.toggle input:disabled ~ .toggle__track,
+.toggle input:disabled + .toggle__track { opacity: 0.4; cursor: not-allowed; }
+.toggle:has(input:disabled) { cursor: not-allowed; }
+
+/* ── Theme: dark (track off is lighter) ── */
+.toggle--theme-dark {
+  --toggle-bg-off: rgba(255,255,255,0.24);
+  --toggle-bg-on:  #EC6724;
+  --toggle-thumb:  #FFFFFF;
+}
+
+/* ── Theme: light (default) ── */
+.toggle--theme-light {
+  --toggle-bg-off: rgba(28,28,28,0.16);
+  --toggle-bg-on:  #EC6724;
+  --toggle-thumb:  #FFFFFF;
+}
+
+/* ── Optional label beside toggle ── */
+.toggle-wrapper {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: 'Inter', sans-serif;
+}
+.toggle-wrapper__content { display: flex; flex-direction: column; gap: 2px; }
+.toggle-wrapper__label   { font-size: 14px; font-weight: 500; color: #1C1C1C; }
+.toggle-wrapper__support { font-size: 14px; color: rgba(28,28,28,0.55); }

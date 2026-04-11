@@ -1,0 +1,60 @@
+/* ==========================================================================
+   Colors — design system tokens
+   Source: Variable collection → Mode 1 (Figma JSON export)
+   ========================================================================== */
+
+:root {
+  /* ── Base ─────────────────────────────────────────────────────────────── */
+  --color-black:              #1C1C1C;   /* Base/Black */
+
+  /* ── Brand palette ──────────────────────────────────────────────────── */
+  --color-brand-25:           #FFF9F6;   /* Brand/25  */
+  --color-brand-50:           #FDEFE8;   /* Brand/50  = Primary/Brand/50 */
+  --color-brand-100:          #F9D1BD;   /* Brand/100 */
+  --color-brand-200:          #F6B493;   /* Brand/200 */
+  --color-brand-300:          #F29769;   /* Brand/300 */
+  --color-brand-400:          #EE793F;   /* Brand/400 */
+  --color-brand-500:          #EC6724;   /* Brand/500 ← primary action */
+  --color-brand-600:          #C04B11;   /* Brand/600 */
+  --color-brand-700:          #963B0D;   /* Brand/700 */
+  --color-brand-800:          #6C2A09;   /* Brand/800 */
+  --color-brand-900:          #170902;   /* Brand/900 */
+
+  /* ── Complimentary ───────────────────────────────────────────────────── */
+  --color-comp-orange:        #EC6724;   /* Complimentary/Orange (= brand-500) */
+  --color-comp-blue:          #24A9EC;   /* Complimentary/Blue  */
+
+  /* ── Semantic aliases (use these in components) ─────────────────────── */
+  --color-primary:            var(--color-brand-500);   /* #EC6724 */
+  --color-primary-hover:      var(--color-brand-600);   /* #C04B11 */
+  --color-primary-active:     var(--color-brand-700);   /* #963B0D */
+  --color-primary-surface:    var(--color-brand-50);    /* #FDEFE8 */
+  --color-primary-surface-sm: var(--color-brand-25);    /* #FFF9F6 */
+
+  --color-accent:             var(--color-comp-blue);   /* #24A9EC */
+
+  /* ── Neutral / UI ────────────────────────────────────────────────────── */
+  --color-text:               #171717;
+  --color-text-muted:         #525252;
+  --color-text-faint:         #A3A3A3;
+  --color-text-inverse:       #FFFFFF;
+
+  --color-bg:                 #FFFFFF;
+  --color-surface:            #FAFAFA;
+  --color-surface-2:          #F5F5F5;
+  --color-surface-offset:     #F0F0F0;
+
+  --color-border:             #E5E5E5;
+  --color-border-strong:      #D4D4D4;
+  --color-divider:            #E5E5E5;
+
+  /* ── Status ──────────────────────────────────────────────────────────── */
+  --color-success:            #16A34A;
+  --color-success-surface:    #F0FDF4;
+  --color-warning:            #D97706;
+  --color-warning-surface:    #FFFBEB;
+  --color-error:              #DC2626;
+  --color-error-surface:      #FEF2F2;
+  --color-info:               #2563EB;
+  --color-info-surface:       #EFF6FF;
+}

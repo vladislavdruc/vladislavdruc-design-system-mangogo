@@ -1,0 +1,246 @@
+/* ==========================================================================
+   Toasts & Alerts — design system component
+   Sources: toasts-success-structure.json + alerts-new-feature-structure.json
+   ──────────────────────────────────────────────────────────────────────────
+   Toast:  w=384, radius=16, padding=4 10 4 4, badge + message + close
+   Alert:  w=340, radius=16, padding=4 10 4 10,          message + close
+   ========================================================================== */
+
+/* ==========================================================================
+   1. TOAST
+   Compact pill-shaped notification — badge + message + close
+   Appears fixed bottom-right, auto-dismisses
+   ========================================================================== */
+
+/* Container — fixed position stack */
+.toast-container {
+  position:      fixed;
+  bottom:        var(--space-6);
+  right:         var(--space-6);
+  z-index:       1000;
+  display:       flex;
+  flex-direction: column;
+  gap:           var(--space-2);
+  align-items:   flex-end;
+  pointer-events: none;
+}
+
+/* Individual toast */
+.toast {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             12px;                /* gap-12 from JSON */
+  padding:         4px 10px 4px 4px;   /* padding from JSON: top right bottom left */
+  max-width:       384px;              /* w=384 from JSON */
+  border-radius:   16px;              /* radius=16 from JSON */
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       14px;               /* size-14 from JSON */
+  font-weight:     500;               /* weight-500 from JSON */
+  pointer-events:  all;
+  box-shadow:
+    0 4px 6px  rgba(0, 0, 0, 0.03),
+    0 12px 16px rgba(0, 0, 0, 0.08);
+
+  /* Animate in */
+  animation: toast-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast--leaving {
+  animation: toast-out 180ms ease-in forwards;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1);    }
+}
+@keyframes toast-out {
+  to   { opacity: 0; transform: translateY(4px) scale(0.97); }
+}
+
+/* ── Color variants ── */
+
+/* Success — bg=#F0FDF4, text=#15803D (from JSON) */
+.toast--success {
+  background: #F0FDF4;
+  color:      #15803D;
+}
+
+/* Error */
+.toast--error {
+  background: #FEF2F2;
+  color:      #B91C1C;
+}
+
+/* Warning */
+.toast--warning {
+  background: #FFFBEB;
+  color:      #B45309;
+}
+
+/* Info / Brand — uses Brand/50 + Brand/600 */
+.toast--info {
+  background: #FDEFE8;             /* Brand/50 */
+  color:      var(--color-primary, #EC6724);
+}
+
+/* ── Message text ── */
+.toast__message {
+  flex:        1;
+  line-height: 1.4;
+  color:       inherit;
+}
+
+/* ── Close button ── */
+.toast__close {
+  flex-shrink: 0;
+  width:       20px;
+  height:      20px;
+  display:     flex;
+  align-items: center;
+  justify-content: center;
+  border:      none;
+  background:  transparent;
+  color:       inherit;
+  opacity:     0.6;
+  cursor:      pointer;
+  border-radius: var(--radius-full);
+  padding:     0;
+  transition:  opacity 140ms ease, background 140ms ease;
+}
+
+.toast__close:hover {
+  opacity:     1;
+  background:  rgba(0, 0, 0, 0.06);
+}
+
+/* ==========================================================================
+   2. ALERT
+   Inline notification banner — sits inside page content
+   ========================================================================== */
+
+.alert {
+  display:       flex;
+  align-items:   center;
+  gap:           12px;               /* gap-12 from JSON */
+  padding:       4px 10px;          /* padding from JSON: 4 10 4 10 (symmetric) */
+  width:         100%;
+  max-width:     340px;             /* w=340 from JSON */
+  border-radius: 16px;             /* radius=16 from JSON */
+  font-family:   var(--font-body, 'Inter', sans-serif);
+  font-size:     14px;              /* size-14 from JSON */
+  font-weight:   400;              /* weight-400 from JSON */
+  line-height:   1.5;
+}
+
+/* ── Color variants ── */
+
+/* New feature / Info — bg=#F9F5FF, text=#6941C6 (from JSON) */
+.alert--info {
+  background: #F9F5FF;
+  color:      #6941C6;
+}
+
+/* Success */
+.alert--success {
+  background: #F0FDF4;
+  color:      #15803D;
+}
+
+/* Error */
+.alert--error {
+  background: #FEF2F2;
+  color:      #B91C1C;
+}
+
+/* Warning */
+.alert--warning {
+  background: #FFFBEB;
+  color:      #B45309;
+}
+
+/* Brand */
+.alert--brand {
+  background: #FDEFE8;             /* Brand/50 */
+  color:      var(--color-primary, #EC6724);
+}
+
+/* ── Icon (optional leading) ── */
+.alert__icon {
+  flex-shrink: 0;
+  width:       20px;
+  height:      20px;
+  color:       inherit;
+}
+
+/* ── Message ── */
+.alert__message {
+  flex:    1;
+  color:   inherit;
+}
+
+/* ── Close button (x instance from JSON) ── */
+.alert__close {
+  flex-shrink: 0;
+  width:       20px;
+  height:      20px;
+  display:     flex;
+  align-items: center;
+  justify-content: center;
+  border:      none;
+  background:  transparent;
+  color:       inherit;
+  opacity:     0.6;
+  cursor:      pointer;
+  border-radius: var(--radius-full);
+  padding:     0;
+  margin-left: auto;
+  transition:  opacity 140ms ease, background 140ms ease;
+}
+
+.alert__close:hover {
+  opacity:    1;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* ── Full-width variant (page-level banners) ── */
+.alert--full {
+  max-width:    100%;
+  border-radius: 0;
+  padding:      var(--space-3) var(--space-6);
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .toast, .toast--leaving { animation: none; }
+}
+
+/* ==========================================================================
+   HTML Usage Examples
+   ────────────────────────────────────────────────────────────────────────────
+
+   Toast (fixed bottom-right):
+   <div class="toast-container" aria-live="polite" aria-atomic="true">
+     <div class="toast toast--success" role="status">
+       <span class="badge badge--success badge--sm">✓</span>
+       <span class="toast__message">Profile updated successfully</span>
+       <button class="toast__close" aria-label="Dismiss">✕</button>
+     </div>
+   </div>
+
+   Alert (inline):
+   <div class="alert alert--info" role="alert">
+     <svg class="alert__icon" ...></svg>
+     <span class="alert__message">We've just released a new feature</span>
+     <button class="alert__close" aria-label="Dismiss">✕</button>
+   </div>
+
+   Alert full-width (page banner):
+   <div class="alert alert--brand alert--full" role="alert">
+     <span class="alert__message">New cars available in Chișinău!</span>
+     <button class="alert__close" aria-label="Dismiss">✕</button>
+   </div>
+
+   ========================================================================== */

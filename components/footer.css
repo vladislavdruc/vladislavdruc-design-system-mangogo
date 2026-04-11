@@ -1,0 +1,342 @@
+/* ==========================================================================
+   Footer — design system component
+   Source: footer-desktop-mobile-structure-2.json
+   ──────────────────────────────────────────────────────────────────────────
+   Desktop: w=1440, h=717, bg=#FFFFFF
+   Padding: 64px top, 48px bottom, gap=64 between sections
+   Container max-width: 1280, padding 0 32
+   3 sections: CTA → Links grid (6 cols) → Bottom bar
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Footer wrapper
+   -------------------------------------------------------------------------- */
+
+.footer {
+  width:           100%;
+  background:      #FFFFFF;
+  padding-top:     64px;             /* padding-top-64 from JSON */
+  padding-bottom:  48px;             /* padding-bottom-48 from JSON */
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  gap:             64px;             /* gap-64 from JSON */
+}
+
+.footer__container {
+  width:           100%;
+  max-width:       1280px;           /* w=1280 from JSON */
+  padding:         0 32px;           /* padding 0 32 from JSON */
+}
+
+/* ==========================================================================
+   Section 1 — CTA
+   Source: heading Inter 30px 600 #1C1C1C | supporting Inter 20px 400 #525252
+   Max-width heading block: 768px, centered, gap=40 to actions
+   ========================================================================== */
+
+.footer__cta {
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  gap:             40px;             /* gap-40 from JSON */
+  text-align:      center;
+}
+
+.footer__cta-text {
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  gap:             16px;             /* gap-16 from JSON */
+  max-width:       768px;            /* heading block w=768 from JSON */
+}
+
+.footer__cta-heading {
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       30px;             /* size-30 from JSON */
+  font-weight:     600;              /* weight-600 from JSON */
+  color:           #1C1C1C;          /* #1C1C1C from JSON */
+  line-height:     1.25;
+  text-wrap:       balance;
+}
+
+.footer__cta-subtext {
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       20px;             /* size-20 from JSON */
+  font-weight:     400;              /* weight-400 from JSON */
+  color:           #525252;          /* rgb(82,82,82) from JSON */
+  line-height:     1.5;
+}
+
+.footer__cta-actions {
+  display:         flex;
+  align-items:     center;
+  gap:             12px;             /* gap-12 from JSON */
+}
+
+/* ==========================================================================
+   Section 2 — Links grid
+   Source: 6 columns (Product, Company, Resources, Use cases, Social, Legal)
+   Each column: w=176, gap=16 heading-to-links, links gap=12
+   Column heading: Inter 14px 600 #737373
+   ========================================================================== */
+
+.footer__links {
+  width:           100%;
+}
+
+.footer__links-grid {
+  display:         grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 columns from JSON */
+  gap:             32px;             /* gap-32 from JSON */
+}
+
+.footer__links-column {
+  display:         flex;
+  flex-direction:  column;
+  gap:             16px;             /* gap-16 from JSON */
+}
+
+.footer__links-heading {
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       14px;             /* size-14 from JSON */
+  font-weight:     600;              /* weight-600 from JSON */
+  color:           #737373;          /* rgb(115,115,115) from JSON */
+  text-transform:  uppercase;
+  letter-spacing:  0.04em;
+  line-height:     1.4;
+}
+
+.footer__links-list {
+  display:         flex;
+  flex-direction:  column;
+  gap:             12px;             /* gap-12 from JSON */
+  list-style:      none;
+  padding:         0;
+  margin:          0;
+}
+
+.footer__link {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             6px;
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       14px;
+  font-weight:     400;
+  color:           #525252;
+  text-decoration: none;
+  line-height:     1.4;
+  transition:      color 140ms ease;
+}
+
+.footer__link:hover {
+  color:           var(--color-primary, #EC6724);
+}
+
+/* Badge inside footer link (e.g. "New") */
+.footer__link-badge {
+  font-size:       11px;
+  font-weight:     600;
+  padding:         1px 6px;
+  border-radius:   var(--radius-full);
+  background:      #FDEFE8;
+  color:           var(--color-primary, #EC6724);
+  line-height:     1.5;
+}
+
+/* ==========================================================================
+   Section 3 — Bottom bar
+   Source: divider 1px #E5E5E5 → logo (left) + copyright (right) space-between
+   Copyright: Inter 16px 400 #737373
+   ========================================================================== */
+
+.footer__bottom {
+  width:           100%;
+  display:         flex;
+  flex-direction:  column;
+  gap:             32px;
+}
+
+.footer__divider {
+  width:           100%;
+  height:          1px;
+  background:      #E5E5E5;          /* rgb(229,229,229) from JSON */
+}
+
+.footer__bottom-content {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+}
+
+.footer__logo {
+  display:         flex;
+  align-items:     center;
+  height:          32px;
+  text-decoration: none;
+  color:           #1C1C1C;
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       18px;
+  font-weight:     700;
+}
+
+.footer__logo svg {
+  height: 32px;
+  width:  auto;
+  color:  #1C1C1C;
+}
+
+.footer__copyright {
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       16px;             /* size-16 from JSON */
+  font-weight:     400;              /* weight-400 from JSON */
+  color:           #737373;          /* rgb(115,115,115) from JSON */
+}
+
+/* ==========================================================================
+   Responsive — Mobile (from screenshots)
+   Mobile: single-column layout, 2-column link grid
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .footer__links-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding-top:  48px;
+    padding-bottom: 32px;
+    gap:          48px;
+  }
+
+  .footer__container {
+    padding: 0 20px;
+  }
+
+  .footer__cta-heading {
+    font-size: 24px;
+  }
+
+  .footer__cta-subtext {
+    font-size: 16px;
+  }
+
+  .footer__links-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 24px;
+  }
+
+  .footer__bottom-content {
+    flex-direction: column;
+    align-items:    flex-start;
+    gap:            16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer__links-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer__cta-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .footer__cta-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ==========================================================================
+   Accessibility
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__link { transition: none; }
+}
+
+/* ==========================================================================
+   HTML Usage Examples
+   ────────────────────────────────────────────────────────────────────────────
+
+   NAVBAR:
+   <nav class="navbar">
+     <div class="navbar__container">
+       <div class="navbar__left">
+         <a href="/" class="navbar__logo">MangoGo</a>
+         <ul class="navbar__nav">
+           <li class="navbar__nav-item">
+             <a href="/cars" class="navbar__nav-link">Cars</a>
+           </li>
+           <li class="navbar__nav-item navbar__nav-item--open">
+             <button class="navbar__nav-link navbar__nav-link--dropdown">
+               Bikes <svg class="navbar__nav-chevron">...</svg>
+             </button>
+             <div class="navbar__dropdown">
+               <a class="navbar__dropdown-item" href="#">
+                 <span class="navbar__dropdown-item-icon">🏍</span>
+                 <span>
+                   <span class="navbar__dropdown-item-title">Motorcycles</span>
+                   <span class="navbar__dropdown-item-desc">Rent for city or adventures</span>
+                 </span>
+               </a>
+             </div>
+           </li>
+         </ul>
+       </div>
+       <div class="navbar__actions">
+         <button class="btn btn--ghost btn--sm">Log in</button>
+         <button class="btn btn--primary btn--sm">Sign up</button>
+       </div>
+       <button class="navbar__hamburger" aria-label="Open menu">
+         <span class="navbar__hamburger-line"></span>
+         <span class="navbar__hamburger-line"></span>
+         <span class="navbar__hamburger-line"></span>
+       </button>
+     </div>
+     <!-- Mobile menu rendered here -->
+   </nav>
+
+   FOOTER:
+   <footer class="footer">
+     <div class="footer__container">
+       <!-- CTA -->
+       <div class="footer__cta">
+         <div class="footer__cta-text">
+           <h2 class="footer__cta-heading">Find your perfect rental</h2>
+           <p class="footer__cta-subtext">Cars, bikes, and apartments in Chișinău and beyond.</p>
+         </div>
+         <div class="footer__cta-actions">
+           <button class="btn btn--primary btn--lg">Get started</button>
+         </div>
+       </div>
+     </div>
+     <div class="footer__container">
+       <!-- Links grid -->
+       <div class="footer__links-grid">
+         <div class="footer__links-column">
+           <span class="footer__links-heading">Cars</span>
+           <ul class="footer__links-list">
+             <li><a href="#" class="footer__link">Sedans</a></li>
+             <li><a href="#" class="footer__link">SUVs</a></li>
+           </ul>
+         </div>
+       </div>
+     </div>
+     <div class="footer__container">
+       <!-- Bottom bar -->
+       <div class="footer__bottom">
+         <div class="footer__divider"></div>
+         <div class="footer__bottom-content">
+           <a href="/" class="footer__logo">MangoGo</a>
+           <span class="footer__copyright">© 2026 MangoGo. All rights reserved.</span>
+         </div>
+       </div>
+     </div>
+   </footer>
+
+   ========================================================================== */

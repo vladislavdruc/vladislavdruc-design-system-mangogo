@@ -1,0 +1,265 @@
+/* ==========================================================================
+   Dropdown / Select — design system component
+   Source: dropdown-variants-structure.json
+   ──────────────────────────────────────────────────────────────────────────
+   Variants: type (default / with-checkboxes) × state (default / hover /
+             focused / disabled / selected / active)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Trigger Button
+   -------------------------------------------------------------------------- */
+
+.dropdown-trigger {
+  display:         inline-flex;
+  align-items:     center;
+  gap:             var(--space-2);
+  padding:         var(--space-2) var(--space-3);
+  min-width:       160px;
+  background:      #FFFFFF;
+  border:          1px solid #E5E5E5;
+  border-radius:   var(--radius-sm);
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       var(--text-sm);
+  color:           var(--color-text, #1C1C1C);
+  cursor:          pointer;
+  user-select:     none;
+  transition:      border-color 180ms ease, box-shadow 180ms ease,
+                   background 180ms ease;
+}
+
+.dropdown-trigger:hover {
+  border-color:    #C9C9C9;
+  background:      #FAFAFA;
+}
+
+.dropdown-trigger:focus-visible {
+  outline:         none;
+  border-color:    var(--color-primary, #EC6724);
+  box-shadow:      0 0 0 3px rgba(236, 103, 36, 0.16);
+}
+
+.dropdown-trigger[aria-expanded="true"] {
+  border-color:    var(--color-primary, #EC6724);
+  box-shadow:      0 0 0 3px rgba(236, 103, 36, 0.16);
+}
+
+.dropdown-trigger:disabled,
+.dropdown-trigger[aria-disabled="true"] {
+  opacity:         0.4;
+  cursor:          not-allowed;
+  pointer-events:  none;
+}
+
+/* Chevron icon inside trigger */
+.dropdown-trigger__icon {
+  margin-left:     auto;
+  width:           16px;
+  height:          16px;
+  color:           #737373;
+  transition:      transform 180ms ease;
+  flex-shrink:     0;
+}
+
+.dropdown-trigger[aria-expanded="true"] .dropdown-trigger__icon {
+  transform:       rotate(180deg);
+}
+
+/* --------------------------------------------------------------------------
+   Dropdown Menu Container
+   Source: w=240, bg=#fff, border=1px #e5e5e5, radius=8px,
+           shadow: 0 4px 6px rgba(0,0,0,.03) + 0 12px 16px rgba(0,0,0,.08)
+   -------------------------------------------------------------------------- */
+
+.dropdown-menu {
+  position:        absolute;
+  z-index:         200;
+  min-width:       240px;
+  background:      #FFFFFF;
+  border:          1px solid #E5E5E5;
+  border-radius:   8px;
+  box-shadow:
+    0 4px 6px  rgba(0, 0, 0, 0.03),
+    0 12px 16px rgba(0, 0, 0, 0.08);
+  overflow:        hidden;
+  display:         flex;
+  flex-direction:  column;
+
+  /* Animation */
+  transform-origin: top center;
+  animation:       dropdown-open 160ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dropdown-open {
+  from { opacity: 0; transform: scale(0.96) translateY(-4px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
+/* Hidden state */
+.dropdown-menu[hidden],
+.dropdown-menu[aria-hidden="true"] {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Dropdown Header
+   Source: _dropdown-list-header instance
+   -------------------------------------------------------------------------- */
+
+.dropdown-header {
+  padding:         var(--space-2) var(--space-3);
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       var(--text-xs);
+  font-weight:     600;
+  color:           #737373;
+  text-transform:  uppercase;
+  letter-spacing:  0.05em;
+  user-select:     none;
+}
+
+/* --------------------------------------------------------------------------
+   Divider
+   Source: divider rectangle, w=240, h=1, bg=#F5F5F5
+   -------------------------------------------------------------------------- */
+
+.dropdown-divider {
+  width:           100%;
+  height:          1px;
+  background:      #F5F5F5;
+  flex-shrink:     0;
+}
+
+/* --------------------------------------------------------------------------
+   Dropdown Items — _dropdown-menu-base
+   -------------------------------------------------------------------------- */
+
+.dropdown-item {
+  display:         flex;
+  align-items:     center;
+  gap:             var(--space-2);
+  padding:         var(--space-2) var(--space-3);
+  font-family:     var(--font-body, 'Inter', sans-serif);
+  font-size:       var(--text-sm);
+  color:           var(--color-text, #1C1C1C);
+  cursor:          pointer;
+  user-select:     none;
+  transition:      background 120ms ease, color 120ms ease;
+  text-decoration: none;
+  border:          none;
+  background:      transparent;
+  width:           100%;
+  text-align:      left;
+}
+
+/* Hover */
+.dropdown-item:hover,
+.dropdown-item:focus-visible {
+  background:      #FDEFE8;   /* Brand/50 */
+  color:           var(--color-primary, #EC6724);
+  outline:         none;
+}
+
+/* Selected / Active */
+.dropdown-item[aria-selected="true"],
+.dropdown-item--selected {
+  background:      #FDEFE8;   /* Brand/50 */
+  color:           var(--color-primary, #EC6724);
+  font-weight:     500;
+}
+
+/* Disabled */
+.dropdown-item[aria-disabled="true"],
+.dropdown-item--disabled {
+  opacity:         0.4;
+  cursor:          not-allowed;
+  pointer-events:  none;
+}
+
+/* Item with leading icon */
+.dropdown-item__icon {
+  width:           16px;
+  height:          16px;
+  flex-shrink:     0;
+  color:           #737373;
+}
+
+.dropdown-item:hover .dropdown-item__icon,
+.dropdown-item--selected .dropdown-item__icon {
+  color:           var(--color-primary, #EC6724);
+}
+
+
+/* --------------------------------------------------------------------------
+   Variant: Dropdown with Checkboxes
+   Source: Dropdown menu/List+Checkboxs
+   -------------------------------------------------------------------------- */
+
+.dropdown-item--checkbox {
+  gap: var(--space-2);
+}
+
+/* Reuse checkbox component styles; inline override for dropdown context */
+.dropdown-item--checkbox .checkbox {
+  flex-shrink: 0;
+}
+
+.dropdown-item--checkbox[aria-selected="true"] {
+  background:  #FDEFE8;
+}
+
+/* --------------------------------------------------------------------------
+   Wrapper — positions trigger + menu together
+   -------------------------------------------------------------------------- */
+
+.dropdown {
+  position: relative;
+  display:  inline-block;
+}
+
+/* Menu alignment variants */
+.dropdown-menu--right  { right: 0; left: auto; }
+.dropdown-menu--left   { left:  0; right: auto; }
+.dropdown-menu--top {
+  bottom:          100%;
+  top:             auto;
+  margin-bottom:   var(--space-1);
+  transform-origin: bottom center;
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdown-menu { animation: none; }
+  .dropdown-trigger__icon { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
+   HTML Usage Example
+   ────────────────────────────────────────────────────────────────────────────
+
+   <!-- Default dropdown -->
+   <div class="dropdown">
+     <button class="dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+       Select option
+       <svg class="dropdown-trigger__icon" ...></svg>
+     </button>
+     <ul class="dropdown-menu" role="listbox">
+       <li class="dropdown-header">Category</li>
+       <li class="dropdown-item" role="option">Option 1</li>
+       <li class="dropdown-item" role="option">Option 2</li>
+       <li class="dropdown-divider"></li>
+       <li class="dropdown-item dropdown-item--disabled" aria-disabled="true">Disabled</li>
+     </ul>
+   </div>
+
+   <!-- With checkboxes -->
+   <ul class="dropdown-menu">
+     <li class="dropdown-item dropdown-item--checkbox" aria-selected="true">
+       <span class="checkbox checkbox--checked checkbox--sm"></span>
+       Label
+     </li>
+   </ul>
+
+   ========================================================================== */

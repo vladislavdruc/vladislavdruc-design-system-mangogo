@@ -1,0 +1,217 @@
+/* ==========================================================================
+   Loader / Spinner — design system component
+   Variants: type (pulse / spinner / dots / bar) × size (sm / md / lg)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS Variables (override via parent if needed)
+   -------------------------------------------------------------------------- */
+:root {
+  --loader-color-primary:   var(--color-primary, #EC6724);
+  --loader-color-secondary: rgba(236, 103, 36, 0.18);
+  --loader-color-white:     #FFFFFF;
+  --loader-speed:           1s;
+}
+
+/* ==========================================================================
+   1. PULSE LOADER — твой оригинал, улучшенный
+   Два круга пульсируют в противофазе
+   ========================================================================== */
+
+.loader-pulse {
+  --size: 84px;
+  --dot:  14px;
+  width:    var(--size);
+  height:   var(--size);
+  position: relative;
+  display:  inline-block;
+  flex-shrink: 0;
+}
+
+.loader-pulse::before,
+.loader-pulse::after {
+  content:       "";
+  position:      absolute;
+  border-radius: 50%;
+  animation:     loader-pulse-anim var(--loader-speed) infinite linear alternate;
+}
+
+.loader-pulse::before {
+  right:      0; top: 0;
+  width:      var(--size);
+  height:     var(--size);
+  background: var(--loader-color-primary);
+}
+
+.loader-pulse::after {
+  left:       0; bottom: 0;
+  width:      var(--size);
+  height:     var(--size);
+  background: var(--loader-color-white);
+  animation-direction: alternate-reverse;
+}
+
+@keyframes loader-pulse-anim {
+  0%   { width: var(--dot); height: var(--dot); }
+  100% { width: var(--size); height: var(--size); }
+}
+
+/* ── Sizes ── */
+.loader-pulse--sm { --size: 40px; --dot: 7px;  }
+.loader-pulse--md { --size: 84px; --dot: 14px; }
+.loader-pulse--lg { --size: 120px; --dot: 20px; }
+
+/* ── Dark background variant ── */
+.loader-pulse--dark::after {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ==========================================================================
+   2. SPINNER LOADER — классический круговой спиннер
+   ========================================================================== */
+
+.loader-spinner {
+  --size:       40px;
+  --thickness:  3px;
+  width:        var(--size);
+  height:       var(--size);
+  border-radius: 50%;
+  border:       var(--thickness) solid var(--loader-color-secondary);
+  border-top-color: var(--loader-color-primary);
+  display:      inline-block;
+  flex-shrink:  0;
+  animation:    loader-spin 0.7s linear infinite;
+}
+
+@keyframes loader-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Sizes ── */
+.loader-spinner--sm { --size: 20px; --thickness: 2px; }
+.loader-spinner--md { --size: 40px; --thickness: 3px; }
+.loader-spinner--lg { --size: 64px; --thickness: 4px; }
+
+/* ── White variant (на цветном фоне) ── */
+.loader-spinner--white {
+  border-color:     rgba(255, 255, 255, 0.35);
+  border-top-color: #FFFFFF;
+}
+
+/* ── Кнопка с инлайн-спиннером ── */
+.btn--loading {
+  position: relative;
+  color: transparent !important;
+  pointer-events: none;
+}
+.btn--loading::after {
+  content: "";
+  position:     absolute;
+  inset:        50% auto auto 50%;
+  transform:    translate(-50%, -50%);
+  width:        18px; height: 18px;
+  border-radius: 50%;
+  border:       2px solid rgba(255,255,255,0.4);
+  border-top-color: #FFFFFF;
+  animation:    loader-spin 0.7s linear infinite;
+}
+
+/* ==========================================================================
+   3. DOTS LOADER — три точки
+   ========================================================================== */
+
+.loader-dots {
+  display:     inline-flex;
+  align-items: center;
+  gap:         6px;
+  flex-shrink: 0;
+}
+
+.loader-dots__dot {
+  width:         8px;
+  height:        8px;
+  border-radius: 50%;
+  background:    var(--loader-color-primary);
+  animation:     loader-dots-anim 1.2s ease-in-out infinite;
+}
+.loader-dots__dot:nth-child(2) { animation-delay: 0.2s; }
+.loader-dots__dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loader-dots-anim {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40%           { transform: scale(1.0); opacity: 1;   }
+}
+
+/* ── Sizes ── */
+.loader-dots--sm .loader-dots__dot { width: 5px;  height: 5px;  gap: 4px;  }
+.loader-dots--lg .loader-dots__dot { width: 12px; height: 12px; gap: 8px;  }
+
+/* ==========================================================================
+   4. BAR LOADER — прогресс-бар загрузки страницы (top of page)
+   ========================================================================== */
+
+.loader-bar {
+  position:   fixed;
+  top: 0; left: 0;
+  width:      100%;
+  height:     3px;
+  background: var(--loader-color-secondary);
+  z-index:    9999;
+  overflow:   hidden;
+}
+
+.loader-bar::after {
+  content:    "";
+  position:   absolute;
+  top: 0; left: -40%;
+  width:      40%;
+  height:     100%;
+  background: var(--loader-color-primary);
+  border-radius: 0 2px 2px 0;
+  animation:  loader-bar-anim 1.2s ease-in-out infinite;
+}
+
+@keyframes loader-bar-anim {
+  0%   { left: -40%; }
+  100% { left: 110%; }
+}
+
+/* ==========================================================================
+   Accessibility — respect reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-pulse::before,
+  .loader-pulse::after  { animation: none; width: calc(var(--size) * 0.5); height: calc(var(--size) * 0.5); }
+  .loader-spinner       { animation: none; border-top-color: var(--loader-color-primary); opacity: 0.6; }
+  .loader-dots__dot     { animation: none; opacity: 0.6; }
+  .loader-bar::after    { animation: none; width: 40%; left: 30%; }
+  .btn--loading::after  { animation: none; }
+}
+
+/* ==========================================================================
+   HTML Usage Examples
+   ────────────────────────────────────────────────────────────────────────────
+
+   Pulse (original):
+   <div class="loader-pulse loader-pulse--md" role="status" aria-label="Loading"></div>
+
+   Spinner:
+   <div class="loader-spinner loader-spinner--md" role="status" aria-label="Loading"></div>
+
+   Spinner inside button:
+   <button class="btn btn--primary btn--loading" disabled aria-busy="true">
+     Book now
+   </button>
+
+   Dots:
+   <div class="loader-dots" role="status" aria-label="Loading">
+     <span class="loader-dots__dot"></span>
+     <span class="loader-dots__dot"></span>
+     <span class="loader-dots__dot"></span>
+   </div>
+
+   Page bar (insert once in <body>):
+   <div class="loader-bar" id="page-loader"></div>
+
+   ========================================================================== */
