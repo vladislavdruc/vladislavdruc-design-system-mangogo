@@ -7,6 +7,19 @@
   /* ── Base ─────────────────────────────────────────────────────────────── */
   --color-black:              #1C1C1C;   /* Base/Black */
 
+  /* ── Neutral palette ─────────────────────────────────────────────────── */
+  --color-neutral-0:          #FFFFFF;   /* Neutral/0   */
+  --color-neutral-25:         #FAFAFA;   /* Neutral/25  */
+  --color-neutral-50:         #F5F5F5;   /* Neutral/50  */
+  --color-neutral-200:        #E5E5E5;   /* Neutral/200 */
+  --color-neutral-300:        #D4D4D4;   /* Neutral/300 */
+  --color-neutral-400:        #A3A3A3;   /* Neutral/400 */
+  --color-neutral-500:        #737373;   /* Neutral/500 */
+  --color-neutral-600:        #525252;   /* Neutral/600 */
+  --color-neutral-700:        #404040;   /* Neutral/700 */
+  --color-neutral-800:        #262626;   /* Neutral/800 */
+  --color-neutral-900:        #171717;   /* Neutral/900 */
+
   /* ── Brand palette ──────────────────────────────────────────────────── */
   --color-brand-25:           #FFF9F6;   /* Brand/25  */
   --color-brand-50:           #FDEFE8;   /* Brand/50  = Primary/Brand/50 */
@@ -25,28 +38,28 @@
   --color-comp-blue:          #24A9EC;   /* Complimentary/Blue  */
 
   /* ── Semantic aliases (use these in components) ─────────────────────── */
-  --color-primary:            var(--color-brand-500);   /* #EC6724 */
-  --color-primary-hover:      var(--color-brand-600);   /* #C04B11 */
-  --color-primary-active:     var(--color-brand-700);   /* #963B0D */
-  --color-primary-surface:    var(--color-brand-50);    /* #FDEFE8 */
-  --color-primary-surface-sm: var(--color-brand-25);    /* #FFF9F6 */
+  --color-primary:            var(--color-brand-500);
+  --color-primary-hover:      var(--color-brand-600);
+  --color-primary-active:     var(--color-brand-700);
+  --color-primary-surface:    var(--color-brand-50);
+  --color-primary-surface-sm: var(--color-brand-25);
 
-  --color-accent:             var(--color-comp-blue);   /* #24A9EC */
+  --color-accent:             var(--color-comp-blue);
 
   /* ── Neutral / UI ────────────────────────────────────────────────────── */
-  --color-text:               #171717;
-  --color-text-muted:         #525252;
-  --color-text-faint:         #A3A3A3;
-  --color-text-inverse:       #FFFFFF;
+  --color-text:               var(--color-neutral-900);   /* #171717 */
+  --color-text-muted:         var(--color-neutral-600);   /* #525252 */
+  --color-text-faint:         var(--color-neutral-400);   /* #A3A3A3 */
+  --color-text-inverse:       var(--color-neutral-0);     /* #FFFFFF */
 
-  --color-bg:                 #FFFFFF;
-  --color-surface:            #FAFAFA;
-  --color-surface-2:          #F5F5F5;
-  --color-surface-offset:     #F0F0F0;
+  --color-bg:                 var(--color-neutral-0);     /* #FFFFFF */
+  --color-surface:            var(--color-neutral-25);    /* #FAFAFA */
+  --color-surface-2:          var(--color-neutral-50);    /* #F5F5F5 */
+  --color-surface-offset:     var(--color-neutral-200);   /* #E5E5E5 */
 
-  --color-border:             #E5E5E5;
-  --color-border-strong:      #D4D4D4;
-  --color-divider:            #E5E5E5;
+  --color-border:             var(--color-neutral-200);   /* #E5E5E5 */
+  --color-border-strong:      var(--color-neutral-300);   /* #D4D4D4 */
+  --color-divider:            var(--color-neutral-200);   /* #E5E5E5 */
 
   /* ── Status ──────────────────────────────────────────────────────────── */
   --color-success:            #16A34A;
