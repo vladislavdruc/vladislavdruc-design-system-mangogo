@@ -1,1 +1,828 @@
+<style>
+/* ==========================================
+   .ds-header — MangoGo Navbar
+   Tilda T123
+   ========================================== */
 
+.ds-header {
+  position: relative;
+  width: 100%;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  z-index: 1000;
+}
+
+.ds-header__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-8);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* ── Logo ── */
+.ds-header__logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.ds-header__logo img {
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
+/* ── Desktop nav ── */
+.ds-header__nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.ds-header__list {
+  list-style: none;
+  margin: 0;
+  margin-bottom: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.ds-header__item {
+  position: relative;
+}
+
+.ds-header__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  height: 38px;
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  font-weight: var(--fw-medium);
+  color: var(--color-black);
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 1;
+  transition: color var(--transition-base), background var(--transition-base), padding var(--transition-base);
+}
+.ds-header__link:hover {
+  color: var(--color-brand-500);
+}
+.ds-header__link .ds-chev {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  transition: transform var(--transition-base);
+}
+
+/* Жильё и Ещё — hover и открытое состояние */
+#nav-zhilye > .ds-header__link:hover,
+#nav-eshe   > .ds-header__link:hover {
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-black);
+  color: var(--color-text-inverse);
+}
+
+.ds-header__item.is-open > .ds-header__link {
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-black);
+  color: var(--color-text-inverse);
+}
+.ds-header__item.is-open > .ds-header__link:hover {
+  color: var(--color-text-inverse);
+}
+.ds-header__item.is-open > .ds-header__link .ds-chev {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown ── */
+.ds-header__drop {
+  display: none;
+  position: absolute;
+  top: calc(100% + var(--space-3));
+  background: var(--color-black);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-2xl);
+  padding: var(--space-3);
+  z-index: 200;
+}
+.ds-header__item.is-open .ds-header__drop {
+  display: block;
+}
+.ds-header__drop--rich {
+  left: 0;
+  width: 320px;
+}
+.ds-header__drop--simple {
+  right: 0;
+  width: 260px;
+}
+
+/* Rich item */
+.ds-ddi {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-xl);
+  text-decoration: none;
+  transition: filter var(--transition-base);
+}
+.ds-ddi:hover {
+  /* ⚠️ нет токена --color-black-hover, использован filter */
+  filter: brightness(1.35);
+}
+.ds-ddi__icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: var(--color-primary);
+  margin-top: 2px;
+}
+.ds-ddi__title {
+  font-size: var(--text-md);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-inverse);
+  line-height: 1.3;
+  margin-bottom: var(--space-1);
+}
+.ds-ddi__desc {
+  font-size: var(--text-sm);
+  font-weight: var(--fw-regular);
+  color: var(--color-text-faint);
+  line-height: 1.45;
+}
+
+/* Simple link */
+.ds-ddl {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-md);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-inverse);
+  text-decoration: none;
+  border-radius: var(--radius-xl);
+  transition: filter var(--transition-base);
+}
+.ds-ddl:hover {
+  color: var(--color-text-inverse);
+  /* ⚠️ нет токена --color-black-hover, использован filter */
+  filter: brightness(1.35);
+}
+
+/* ── CTA ── */
+.ds-header__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-5);
+  height: 40px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-inverse);
+  background: var(--color-accent);
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: filter var(--transition-base);
+}
+.ds-header__cta:hover {
+  /* ⚠️ нет токена --color-accent-hover в системе, использован filter */
+  filter: brightness(0.9);
+}
+.ds-header__cta svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* ── Бургер ── */
+.ds-header__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  margin-left: auto;
+  transition: background var(--transition-base);
+}
+.ds-header__burger:hover {
+  background: var(--color-surface-2);
+}
+.ds-burger-ln {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--color-text);
+  border-radius: var(--radius-full);
+}
+
+/* ==========================================
+   Overlay + Drawer
+   ========================================== */
+.ds-header__overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--color-black);
+  opacity: 0;
+  z-index: 800;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+.ds-header__overlay.is-visible {
+  display: block;
+  opacity: 0.5;
+  pointer-events: auto;
+}
+
+.ds-header__drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 75vw;
+  max-width: 400px;
+  height: 100vh;
+  background: var(--color-bg);
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform var(--transition-slow);
+  overflow: hidden;
+}
+.ds-header__drawer.is-open {
+  transform: translateX(0);
+}
+
+/* Шапка drawer */
+.ds-drw-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-5);
+  height: 64px;
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+.ds-drw-top .ds-header__cta {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  height: 38px;
+  padding: 0 var(--space-4);
+  filter: none;
+}
+.ds-drw-top .ds-header__cta:hover {
+  background: var(--color-primary-hover);
+  filter: none;
+}
+
+.ds-drw-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  transition: background var(--transition-base);
+}
+.ds-drw-close:hover {
+  background: var(--color-surface-2);
+}
+.ds-drw-close svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Скролл-область */
+.ds-drw-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2) 0 var(--space-8);
+}
+
+/* ── Аккордеон ── */
+.ds-acc-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  min-height: 56px;
+  transition: color var(--transition-base);
+}
+.ds-acc-trigger:hover {
+  color: var(--color-primary);
+}
+.ds-acc-trigger svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transition: transform var(--transition-base);
+}
+.ds-acc-item.is-open .ds-acc-trigger svg {
+  transform: rotate(180deg);
+}
+.ds-acc-body {
+  display: none;
+  padding: 0 var(--space-5) var(--space-4);
+}
+.ds-acc-item.is-open .ds-acc-body {
+  display: block;
+}
+
+/* Обычная ссылка в drawer */
+.ds-mob-link {
+  display: flex;
+  align-items: center;
+  padding: var(--space-4) var(--space-5);
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text);
+  text-decoration: none;
+  min-height: 56px;
+  transition: color var(--transition-base);
+}
+.ds-mob-link:hover {
+  color: var(--color-primary);
+}
+
+/* Rich карточка Жильё (mobile) */
+.ds-mob-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+}
+.ds-mob-card-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  text-decoration: none;
+  transition: background var(--transition-base);
+}
+.ds-mob-card-item + .ds-mob-card-item {
+  border-top: 1px solid var(--color-border);
+}
+.ds-mob-card-item:hover {
+  background: var(--color-surface);
+}
+.ds-mob-card-item.is-active {
+  background: var(--color-primary-surface);
+}
+.ds-mob-card-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  color: var(--color-primary);
+  margin-top: 2px;
+}
+.ds-mob-card-title {
+  font-size: var(--text-md);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+  line-height: 1.3;
+}
+.ds-mob-card-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+/* Простые ссылки Ещё (mobile) */
+.ds-mob-slink {
+  display: flex;
+  align-items: center;
+  padding: var(--space-3);
+  font-size: var(--text-md);
+  font-weight: var(--fw-medium);
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  min-height: 44px;
+  transition: color var(--transition-base), background var(--transition-base);
+}
+.ds-mob-slink:hover {
+  color: var(--color-primary);
+  background: var(--color-primary-surface-sm);
+}
+
+/* ── Адаптив ── */
+@media (max-width: 960px) {
+  .ds-header__nav,
+  .ds-header__cta {
+    display: none;
+  }
+  .ds-header__burger {
+    display: flex;
+  }
+}
+@media (max-width: 480px) {
+  .ds-header__inner {
+    padding: 0 var(--space-4);
+    height: 64px;
+  }
+  .ds-header__drawer {
+    width: 100vw;
+    max-width: 100vw;
+  }
+}
+
+/* ── ПРАВКИ ── */
+
+/* 1. Обычные ссылки: цвет --color-black, hover --color-brand-500 */
+.ds-header__item:not(#nav-zhilye):not(#nav-eshe) .ds-header__link {
+  color: var(--color-black);
+}
+.ds-header__item:not(#nav-zhilye):not(#nav-eshe) .ds-header__link:hover {
+  color: var(--color-brand-500);
+  background: none;
+}
+
+/* 1. Жильё и Ещё — padding при hover: 12px 24px */
+#nav-zhilye > .ds-header__link,
+#nav-eshe   > .ds-header__link {
+  color: var(--color-black);
+}
+#nav-zhilye > .ds-header__link:hover,
+#nav-eshe   > .ds-header__link:hover,
+#nav-zhilye.is-open > .ds-header__link,
+#nav-eshe.is-open   > .ds-header__link {
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+  background: var(--color-black);
+  color: var(--color-text-inverse);
+}
+
+/* 2. Dropdown Ещё — текст белый (усиленная специфичность) */
+.ds-header__drop--simple .ds-ddl,
+.ds-header__drop--simple .ds-ddl:hover {
+  color: var(--color-text-inverse) !important;
+}
+
+/* 3. ul margin-bottom: 0 */
+ul.ds-header__list {
+  margin-bottom: 0 !important;
+}
+
+/* 4. CTA — текст белый (усиленная специфичность) */
+a.ds-header__cta,
+a.ds-header__cta:hover,
+button.ds-header__cta,
+button.ds-header__cta:hover {
+  color: var(--color-text-inverse) !important;
+}
+</style>
+
+<header class="ds-header" id="ds-header">
+  <div class="ds-header__inner">
+
+    <a href="/" class="ds-header__logo">
+      <img
+        src="CLOUDINARY_URL"
+        alt="MangoGo"
+        width="140"
+        height="36"
+        loading="eager"
+        decoding="async"
+      />
+      <!-- ☁️ Замени CLOUDINARY_URL на ссылку логотипа из Cloudinary -->
+    </a>
+
+    <nav class="ds-header__nav" aria-label="Главная навигация">
+      <ul class="ds-header__list">
+
+        <li class="ds-header__item" id="nav-zhilye">
+          <button class="ds-header__link" aria-haspopup="true" aria-expanded="false">
+            Жильё
+            <svg class="ds-chev" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="ds-header__drop ds-header__drop--rich" role="menu">
+            <a href="#" class="ds-ddi" role="menuitem">
+              <svg class="ds-ddi__icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M5 14L16 5L27 14V27H20V20H12V27H5V14Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div>
+                <div class="ds-ddi__title">Краткосрок</div>
+                <div class="ds-ddi__desc">Жильё для отдыха на любой срок — от недели до месяца.</div>
+              </div>
+            </a>
+            <a href="#" class="ds-ddi" role="menuitem">
+              <svg class="ds-ddi__icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="6" y="4" width="20" height="24" rx="1" stroke="currentColor" stroke-width="1.6"/>
+                <rect x="10" y="8" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+                <rect x="18" y="8" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+                <rect x="10" y="16" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+                <rect x="18" y="16" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+              </svg>
+              <div>
+                <div class="ds-ddi__title">Долгосрок</div>
+                <div class="ds-ddi__desc">Апартаменты и виллы для жизни на Пхукете от 3 месяцев.</div>
+              </div>
+            </a>
+            <a href="#" class="ds-ddi" role="menuitem">
+              <svg class="ds-ddi__icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M4 28H28" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <rect x="7" y="14" width="11" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/>
+                <rect x="10" y="18" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M18 20H25V28H18V20Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                <path d="M20 8H26V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <div>
+                <div class="ds-ddi__title">Новостройки</div>
+                <div class="ds-ddi__desc">Квартиры от застройщиков — для жизни или инвестиций.</div>
+              </div>
+            </a>
+            <a href="#" class="ds-ddi" role="menuitem">
+              <svg class="ds-ddi__icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="4" y="8" width="24" height="20" rx="1" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M4 14H28" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M4 20H28" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M12 14V28" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M20 14V28" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M10 4H22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M16 4V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <div>
+                <div class="ds-ddi__title">Вторичка</div>
+                <div class="ds-ddi__desc">Готовые объекты от собственников по всему острову.</div>
+              </div>
+            </a>
+          </div>
+        </li>
+
+        <li class="ds-header__item"><a href="#" class="ds-header__link">Экскурсии</a></li>
+        <li class="ds-header__item"><a href="#" class="ds-header__link">Байки</a></li>
+        <li class="ds-header__item"><a href="#" class="ds-header__link">Авто</a></li>
+        <li class="ds-header__item"><a href="#" class="ds-header__link">Яхты</a></li>
+        <li class="ds-header__item"><a href="#" class="ds-header__link">Календарь</a></li>
+        <li class="ds-header__item"><a href="#" class="ds-header__link">Акции</a></li>
+
+        <li class="ds-header__item" id="nav-eshe">
+          <button class="ds-header__link" aria-haspopup="true" aria-expanded="false">
+            Ещё
+            <svg class="ds-chev" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="ds-header__drop ds-header__drop--simple" role="menu">
+            <a href="#" class="ds-ddl" role="menuitem">Визы</a>
+            <a href="#" class="ds-ddl" role="menuitem">Обмен валюты</a>
+            <a href="#" class="ds-ddl" role="menuitem">Фото/Видеосъемка</a>
+            <a href="#" class="ds-ddl" role="menuitem">Трансфер по острову</a>
+            <a href="#" class="ds-ddl" role="menuitem">Полёты на самолёте</a>
+            <a href="#" class="ds-ddl" role="menuitem">Гайды для туриста</a>
+            <a href="#" class="ds-ddl" role="menuitem">eSIM</a>
+            <a href="#" class="ds-ddl" role="menuitem">Контакты</a>
+          </div>
+        </li>
+
+      </ul>
+    </nav>
+
+    <a href="#" class="ds-header__cta" aria-label="Написать в чат 24/7">
+      <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1 7.5L13.5 2L9 13L7 8.5L1 7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+        <path d="M7 8.5L9.5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+      Чат 24/7
+    </a>
+
+    <button class="ds-header__burger" id="ds-burger" aria-label="Открыть меню" aria-expanded="false">
+      <span class="ds-burger-ln"></span>
+      <span class="ds-burger-ln"></span>
+      <span class="ds-burger-ln"></span>
+    </button>
+  </div>
+
+  <div class="ds-header__overlay" id="ds-overlay" aria-hidden="true"></div>
+
+  <div class="ds-header__drawer" id="ds-drawer" role="dialog" aria-modal="true" aria-label="Меню">
+    <div class="ds-drw-top">
+      <a href="#" class="ds-header__cta" aria-label="Написать в чат 24/7">
+        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="15" height="15">
+          <path d="M1 7.5L13.5 2L9 13L7 8.5L1 7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+          <path d="M7 8.5L9.5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        Чат 24/7
+      </a>
+      <button class="ds-drw-close" id="ds-drw-close" aria-label="Закрыть меню">
+        <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M4 4L18 18M18 4L4 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ds-drw-body">
+
+      <div class="ds-acc-item is-open" id="mob-zhilye">
+        <button class="ds-acc-trigger" aria-expanded="true" aria-controls="mob-zhilye-body">
+          Жильё
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 7L9 12L14 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="ds-acc-body" id="mob-zhilye-body">
+          <div class="ds-mob-card">
+            <a href="#" class="ds-mob-card-item">
+              <svg class="ds-mob-card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M5 14L16 5L27 14V27H20V20H12V27H5V14Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <div>
+                <div class="ds-mob-card-title">Краткосрок</div>
+                <div class="ds-mob-card-desc">Жильё для отдыха на любой срок — от недели до месяца.</div>
+              </div>
+            </a>
+            <a href="#" class="ds-mob-card-item">
+              <svg class="ds-mob-card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="6" y="4" width="20" height="24" rx="1" stroke="currentColor" stroke-width="1.6"/>
+                <rect x="10" y="8" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+                <rect x="18" y="8" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+                <rect x="10" y="16" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+                <rect x="18" y="16" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+              </svg>
+              <div>
+                <div class="ds-mob-card-title">Долгосрок</div>
+                <div class="ds-mob-card-desc">Апартаменты и виллы для жизни на Пхукете от 3 месяцев.</div>
+              </div>
+            </a>
+            <a href="#" class="ds-mob-card-item">
+              <svg class="ds-mob-card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M4 28H28" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <rect x="7" y="14" width="11" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/>
+                <rect x="10" y="18" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M18 20H25V28H18V20Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                <path d="M20 8H26V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <div>
+                <div class="ds-mob-card-title">Новостройки</div>
+                <div class="ds-mob-card-desc">Квартиры от застройщиков — для жизни или инвестиций.</div>
+              </div>
+            </a>
+            <a href="#" class="ds-mob-card-item is-active">
+              <svg class="ds-mob-card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="4" y="8" width="24" height="20" rx="1" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M4 14H28" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M4 20H28" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M12 14V28" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M20 14V28" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M10 4H22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M16 4V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <div>
+                <div class="ds-mob-card-title">Вторичка</div>
+                <div class="ds-mob-card-desc">Готовые объекты от собственников по всему острову.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a href="#" class="ds-mob-link">Экскурсии</a>
+      <a href="#" class="ds-mob-link">Байки</a>
+      <a href="#" class="ds-mob-link">Авто</a>
+      <a href="#" class="ds-mob-link">Яхты</a>
+      <a href="#" class="ds-mob-link">Календарь</a>
+      <a href="#" class="ds-mob-link">Акции</a>
+
+      <div class="ds-acc-item" id="mob-eshe">
+        <button class="ds-acc-trigger" aria-expanded="false" aria-controls="mob-eshe-body">
+          Ещё
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 7L9 12L14 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="ds-acc-body" id="mob-eshe-body">
+          <a href="#" class="ds-mob-slink">Визы</a>
+          <a href="#" class="ds-mob-slink">Обмен валюты</a>
+          <a href="#" class="ds-mob-slink">Фото/Видеосъемка</a>
+          <a href="#" class="ds-mob-slink">Трансфер по острову</a>
+          <a href="#" class="ds-mob-slink">Полёты на самолёте</a>
+          <a href="#" class="ds-mob-slink">Гайды для туриста</a>
+          <a href="#" class="ds-mob-slink">eSIM</a>
+          <a href="#" class="ds-mob-slink">Контакты</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<script>
+(function () {
+  var hdr      = document.getElementById('ds-header');
+  var burger   = document.getElementById('ds-burger');
+  var overlay  = document.getElementById('ds-overlay');
+  var drawer   = document.getElementById('ds-drawer');
+  var closeBtn = document.getElementById('ds-drw-close');
+
+  if (!hdr || !burger || !overlay || !drawer || !closeBtn) { return; }
+
+  function openDrawer() {
+    drawer.classList.add('is-open');
+    overlay.classList.add('is-visible');
+    overlay.setAttribute('aria-hidden', 'false');
+    burger.setAttribute('aria-expanded', 'true');
+  }
+  function closeDrawer() {
+    drawer.classList.remove('is-open');
+    overlay.classList.remove('is-visible');
+    overlay.setAttribute('aria-hidden', 'true');
+    burger.setAttribute('aria-expanded', 'false');
+  }
+
+  burger.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  function closeItem(item) {
+    if (!item) { return; }
+    item.classList.remove('is-open');
+    var t = item.querySelector('.ds-header__link');
+    if (t) { t.setAttribute('aria-expanded', 'false'); }
+  }
+
+  var ddItems = [
+    document.getElementById('nav-zhilye'),
+    document.getElementById('nav-eshe')
+  ];
+
+  ddItems.forEach(function (item) {
+    if (!item) { return; }
+    var trigger = item.querySelector('.ds-header__link');
+
+    item.addEventListener('mouseenter', function () {
+      ddItems.forEach(function (o) { if (o !== item) { closeItem(o); } });
+      item.classList.add('is-open');
+      trigger.setAttribute('aria-expanded', 'true');
+    });
+    item.addEventListener('mouseleave', function () {
+      closeItem(item);
+    });
+    trigger.addEventListener('click', function (e) {
+      e.preventDefault();
+      var isOpen = item.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', String(isOpen));
+      if (isOpen) {
+        ddItems.forEach(function (o) { if (o !== item) { closeItem(o); } });
+      }
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!hdr.contains(e.target)) { ddItems.forEach(closeItem); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { ddItems.forEach(closeItem); closeDrawer(); }
+  });
+
+  hdr.querySelectorAll('.ds-acc-item').forEach(function (acc) {
+    var trig = acc.querySelector('.ds-acc-trigger');
+    if (!trig) { return; }
+    trig.addEventListener('click', function () {
+      var isOpen = acc.classList.toggle('is-open');
+      trig.setAttribute('aria-expanded', String(isOpen));
+    });
+  });
+})();
+</script>
