@@ -1,1 +1,433 @@
+<style>
+  .ds-footer {
+    font-family: var(--font-body);
+    background: var(--color-surface);
+    color: var(--color-text);
+  }
 
+  /* ── Zone 1: CTA ── */
+  .ds-footer__cta-wrap {
+    padding: var(--space-16) var(--space-6);
+  }
+
+  .ds-footer__cta {
+    max-width: var(--content-sm);
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .ds-footer__cta-heading {
+    font-family: var(--font-body);
+    font-size: var(--text-display-md);
+    font-weight: var(--fw-bold);
+    line-height: var(--lh-display-md);
+    color: var(--color-text);
+    margin: 0 0 var(--space-4);
+  }
+
+  .ds-footer__cta-sub {
+    font-size: var(--text-lg);
+    font-weight: var(--fw-bold);
+    line-height: var(--lh-text);
+    color: var(--color-text);
+    margin: 0 0 var(--space-3);
+  }
+
+  .ds-footer__cta-body {
+    font-size: var(--text-md);
+    line-height: var(--lh-text);
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-8);
+  }
+
+  /* ── Messenger buttons ── */
+  /* 🆕 custom messenger buttons, not in system */
+  .ds-footer__btns {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .ds-footer__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text-inverse);
+    text-decoration: none;
+    min-height: 44px;
+    transition: opacity var(--transition-base), transform var(--transition-fast);
+  }
+
+  .ds-footer__btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  .ds-footer__btn:active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .ds-footer__btn--tg {
+    background: var(--color-accent);
+  }
+
+  .ds-footer__btn--wa {
+    /* ⚠️ WhatsApp brand #25D366 not in system, used var(--color-success) #16A34A */
+    background: var(--color-success);
+  }
+
+  .ds-footer__btn svg {
+    flex-shrink: 0;
+    display: block;
+  }
+
+  /* ── Divider ── */
+  .ds-footer__divider {
+    height: 2px;
+    background: var(--color-primary);
+    border: none;
+    margin: 0;
+  }
+
+  /* ── Zone 2: Columns ── */
+  .ds-footer__columns-wrap {
+    padding: var(--space-12) var(--space-8);
+    /* ⚠️ 985.45px — не является spacing-токеном, использован точный px по требованию */
+    max-width: 985.45px;
+    margin: 0 auto;
+  }
+
+  .ds-footer__columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-8);
+  }
+
+  /* Brand column — fix 1 */
+  .ds-footer__col:first-child {
+    max-width: 190px;
+  }
+
+  .ds-footer__logo-link {
+    display: inline-block;
+    margin-bottom: var(--space-4);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .ds-footer__tagline {
+    font-size: var(--text-sm);
+    line-height: var(--lh-text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* Nav column */
+  .ds-footer__nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .ds-footer__nav a {
+    display: block;
+    font-size: var(--text-md);
+    line-height: var(--lh-text);
+    /* ⚠️ --color-black не найден в системе, использован var(--color-neutral-900) = #171717 */
+    color: var(--color-neutral-900);
+    text-decoration: none;
+    padding: var(--space-2) 0;
+    transition: color var(--transition-fast);
+  }
+
+  .ds-footer__nav a:hover {
+    /* --color-brand-500 = var(--color-primary) */
+    color: var(--color-primary);
+  }
+
+  /* Column labels */
+  .ds-footer__col-label {
+    display: block;
+    font-size: var(--text-md);
+    font-weight: var(--fw-bold);
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+  }
+
+  /* Social & contacts lists */
+  .ds-footer__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .ds-footer__list a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-md);
+    line-height: var(--lh-text);
+    /* ⚠️ --color-black не найден в системе, использован var(--color-neutral-900) = #171717 */
+    color: var(--color-neutral-900);
+    text-decoration: none;
+    padding: var(--space-1) 0;
+    transition: color var(--transition-fast);
+  }
+
+  .ds-footer__list a:hover {
+    /* --color-brand-500 = var(--color-primary) */
+    color: var(--color-primary);
+  }
+
+  .ds-footer__list svg {
+    flex-shrink: 0;
+    display: block;
+    color: var(--color-neutral-900);
+    transition: color var(--transition-fast);
+  }
+
+  .ds-footer__list a:hover svg {
+    color: var(--color-primary);
+  }
+
+  .ds-footer__manager {
+    color: var(--color-primary);
+  }
+
+  /* ── Bottom bar ── */
+  .ds-footer__bottom {
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-6) var(--space-8);
+    text-align: center;
+  }
+
+  .ds-footer__copyright {
+    font-size: var(--text-sm);
+    line-height: var(--lh-text-sm);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  /* ── Tablet 601–1024px ── */
+  @media (max-width: 1024px) {
+    .ds-footer__columns-wrap {
+      padding: var(--space-10) var(--space-6);
+    }
+
+    .ds-footer__columns {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-8);
+    }
+
+    .ds-footer__cta-wrap {
+      padding: var(--space-12) var(--space-6);
+    }
+  }
+
+  /* ── Mobile ≤600px ── */
+  @media (max-width: 600px) {
+    .ds-footer__cta-wrap {
+      padding: var(--space-10) var(--space-4);
+    }
+
+    .ds-footer__cta-heading {
+      font-size: var(--text-display-xs);
+    }
+
+    .ds-footer__btns {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .ds-footer__btn {
+      width: 100%;
+    }
+
+    .ds-footer__columns-wrap {
+      padding: var(--space-8) var(--space-4);
+    }
+
+    .ds-footer__columns {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    .ds-footer__col:first-child {
+      max-width: 100%;
+    }
+
+    .ds-footer__nav a,
+    .ds-footer__list a {
+      min-height: 44px;
+      align-items: center;
+    }
+
+    .ds-footer__bottom {
+      padding: var(--space-4) var(--space-4);
+    }
+  }
+</style>
+
+<footer class="ds-footer">
+
+  <!-- ZONE 1: CTA -->
+  <div class="ds-footer__cta-wrap">
+    <div class="ds-footer__cta">
+      <h2 class="ds-footer__cta-heading">Нужна помощь?</h2>
+      <p class="ds-footer__cta-sub">Свяжитесь с нами в мессенджерах, мы работаем 24/7 и ответим на любые вопросы!</p>
+      <p class="ds-footer__cta-body">От секретных пляжей до лучших закатов. Открывай остров заново, пока мы заботимся о твоем комфорте 24/7.</p>
+
+      <div class="ds-footer__btns">
+        <a href="#" class="ds-footer__btn ds-footer__btn--tg" aria-label="Связаться в Telegram">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M17.892 3.198 2.444 9.14c-1.04.418-.995.99-.181 1.247l3.897 1.216 9.022-5.69c.426-.258.814-.119.494.164L8.145 12.38l-.26 4.023c.38 0 .548-.174.758-.376l1.82-1.768 3.784 2.793c.697.384 1.2.187 1.374-.647l2.49-11.728c.255-1.023-.39-1.488-1.22-1.48z" fill="currentColor"/>
+          </svg>
+          Связаться в Telegram
+        </a>
+
+        <a href="#" class="ds-footer__btn ds-footer__btn--wa" aria-label="Связаться в WhatsApp">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M10 1.667A8.333 8.333 0 0 0 2.932 14.86l-.765 2.793 2.862-.75A8.333 8.333 0 1 0 10 1.667zm-3.04 4.69c.168 0 .348.007.51.013.195.008.413.02.618.48.245.546.778 1.894.847 2.033.069.14.115.304.023.49-.092.185-.138.3-.276.461-.138.162-.29.36-.414.483-.138.138-.281.287-.12.563.16.276.711 1.173 1.527 1.9.749.667 1.38.876 1.578.974.196.098.31.082.424-.049.115-.13.49-.572.622-.768.13-.196.26-.163.437-.098.175.065 1.112.525 1.303.621.19.097.319.147.367.228.049.081.049.47-.115.922-.163.45-.975.872-1.337.904-.362.033-.695.163-2.355-.49-1.97-.779-3.213-2.793-3.31-2.923-.098-.13-.8-1.064-.8-2.03 0-.965.506-1.44.686-1.637.18-.196.393-.245.524-.245z" fill="currentColor"/>
+          </svg>
+          Связаться в Whatsapp
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <hr class="ds-footer__divider">
+
+  <!-- ZONE 2: 4-column footer -->
+  <div class="ds-footer__columns-wrap">
+    <div class="ds-footer__columns">
+
+      <!-- Col 1: Brand -->
+      <div class="ds-footer__col">
+        <a href="#" class="ds-footer__logo-link" aria-label="MangoGo — на главную">
+          <img
+            src="CLOUDINARY_URL"
+            alt="MangoGo логотип"
+            width="160"
+            height="48"
+            loading="lazy"
+            decoding="async"
+          />
+          <!-- ☁️ Replace CLOUDINARY_URL with a link from Cloudinary -->
+        </a>
+        <p class="ds-footer__tagline">Пухкет в твоем кармане MangoGo — Твой лучший друг на Пхукете.</p>
+      </div>
+
+      <!-- Col 2: Navigation -->
+      <div class="ds-footer__col">
+        <ul class="ds-footer__nav" role="list">
+          <li><a href="#">Жильё</a></li>
+          <li><a href="#">Экскурсии</a></li>
+          <li><a href="#">Байки</a></li>
+          <li><a href="#">Авто</a></li>
+          <li><a href="#">Яхты</a></li>
+          <li><a href="#">Календарь</a></li>
+          <li><a href="#">Акции</a></li>
+          <li><a href="#">Ещё</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Groups -->
+      <div class="ds-footer__col">
+        <span class="ds-footer__col-label">Группы:</span>
+        <ul class="ds-footer__list" role="list">
+          <li>
+            <a href="#" aria-label="Facebook группа">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M18.333 10c0-4.6-3.733-8.333-8.333-8.333S1.667 5.4 1.667 10c0 4.15 3.025 7.59 7 8.225V12.5H6.667V10H8.667V8.25C8.667 6.267 9.842 5.167 11.658 5.167c.842 0 1.725.15 1.725.15V7.25h-.971c-.958 0-1.245.592-1.245 1.2V10h2.166l-.346 2.5H11.167v5.725c3.975-.634 7-4.075 7-8.225z" fill="currentColor"/>
+              </svg>
+              Facebook
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="ВКонтакте группа">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M10.573 14.167h1.094s.33-.036.499-.217c.155-.166.15-.479.15-.479s-.021-1.465.658-1.681c.67-.213 1.53 1.416 2.44 2.042.69.472 1.214.368 1.214.368l2.438-.034s1.275-.078.67-1.081c-.05-.082-.353-.743-1.818-2.101-1.532-1.42-1.327-1.19.518-3.645 1.12-1.493 1.568-2.404 1.428-2.795-.133-.374-0.95-.275-.95-.275l-2.74.017s-.203-.028-.354.065c-.147.091-.242.303-.242.303s-.435 1.159-1.014 2.143c-1.222 2.075-1.71 2.184-1.91 2.056-.464-.3-.348-1.204-.348-1.848 0-2.009.304-2.845-.591-3.063-.298-.072-.517-.12-1.277-.128-1 .022-.726-.013-1.354.005-.576.017-.991.075-.991.075s-.35.045-.509.21c-.144.15-.098.453-.098.453s.498.083.76.329c.344.316.332.997.332.997s.197 2.363-.46 2.657c-.452.203-1.07-.21-2.4-2.1-.557-.806-.978-1.695-.978-1.695s-.082-.202-.226-.31c-.175-.13-.42-.17-.42-.17l-2.601.017s-.39.011-.532.181c-.127.152-.01.467-.01.467s2.034 4.76 4.338 7.158c2.113 2.2 4.513 2.056 4.513 2.056h1.141z" fill="currentColor"/>
+              </svg>
+              Vk
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="Telegram группа">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M17.892 3.198 2.444 9.14c-1.04.418-.995.99-.181 1.247l3.897 1.216 9.022-5.69c.426-.258.814-.119.494.164L8.145 12.38l-.26 4.023c.38 0 .548-.174.758-.376l1.82-1.768 3.784 2.793c.697.384 1.2.187 1.374-.647l2.49-11.728c.255-1.023-.39-1.488-1.22-1.48z" fill="currentColor"/>
+              </svg>
+              Telegram
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="Instagram группа">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <rect x="2" y="2" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="10" cy="10" r="3.25" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="15" cy="5" r="1" fill="currentColor"/>
+              </svg>
+              Instagram
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Contacts -->
+      <div class="ds-footer__col">
+        <span class="ds-footer__col-label">Контакты:</span>
+        <ul class="ds-footer__list" role="list">
+          <li>
+            <!-- fix 5: иконка email убрана -->
+            <a href="mailto:mangogo.phuket@gmail.com">
+              mangogo.phuket@gmail.com
+            </a>
+          </li>
+          <li>
+            <!-- fix 4: иконка телефона убрана -->
+            <a href="tel:+66826198450">
+              +66826198450
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="Telegram менеджер">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M17.892 3.198 2.444 9.14c-1.04.418-.995.99-.181 1.247l3.897 1.216 9.022-5.69c.426-.258.814-.119.494.164L8.145 12.38l-.26 4.023c.38 0 .548-.174.758-.376l1.82-1.768 3.784 2.793c.697.384 1.2.187 1.374-.647l2.49-11.728c.255-1.023-.39-1.488-1.22-1.48z" fill="currentColor"/>
+              </svg>
+              Telegram <span class="ds-footer__manager">&nbsp;(Менеджер)</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" aria-label="WhatsApp менеджер">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M10 1.667A8.333 8.333 0 0 0 2.932 14.86l-.765 2.793 2.862-.75A8.333 8.333 0 1 0 10 1.667zm-3.04 4.69c.168 0 .348.007.51.013.195.008.413.02.618.48.245.546.778 1.894.847 2.033.069.14.115.304.023.49-.092.185-.138.3-.276.461-.138.162-.29.36-.414.483-.138.138-.281.287-.12.563.16.276.711 1.173 1.527 1.9.749.667 1.38.876 1.578.974.196.098.31.082.424-.049.115-.13.49-.572.622-.768.13-.196.26-.163.437-.098.175.065 1.112.525 1.303.621.19.097.319.147.367.228.049.081.049.47-.115.922-.163.45-.975.872-1.337.904-.362.033-.695.163-2.355-.49-1.97-.779-3.213-2.793-3.31-2.923-.098-.13-.8-1.064-.8-2.03 0-.965.506-1.44.686-1.637.18-.196.393-.245.524-.245z" fill="currentColor"/>
+              </svg>
+              Whatsapp <span class="ds-footer__manager">&nbsp;(Менеджер)</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM BAR -->
+  <div class="ds-footer__bottom">
+    <p class="ds-footer__copyright">© 2026 MangoGo Phuket. Твой лучший друг на Пхукете.</p>
+  </div>
+
+</footer>
