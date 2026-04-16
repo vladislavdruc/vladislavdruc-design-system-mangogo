@@ -4,14 +4,14 @@
     display: block;
     flex-shrink: 0;
   }
-  /* ⚠️ 18px не является стандартным icon-токеном (--icon-sm=16px, --icon-md=24px),
-     использован кастомный класс с фиксированным значением по требованию задачи */
+  /* ⚠️ 18px — не является стандартным icon-токеном (--icon-sm=16px, --icon-md=24px),
+     использован кастомный класс с точным значением по требованию задачи */
   .ds-footer .mc-icon--18 {
     width: 18px;
     height: 18px;
   }
   .ds-footer .mc-icon--md {
-    width: var(--icon-md);
+    width: var(--icon-md); /* 24px */
     height: var(--icon-md);
   }
 
@@ -77,7 +77,8 @@
     font-family: var(--font-body);
     font-size: var(--text-sm);
     font-weight: var(--fw-semibold);
-    color: var(--color-text-inverse);
+    /* Принудительно белый текст — перебиваем возможный Tilda-глобал */
+    color: var(--color-text-inverse) !important;
     text-decoration: none;
     min-height: 44px;
     white-space: nowrap;
@@ -87,6 +88,7 @@
   .ds-footer__btn:hover {
     opacity: 0.88;
     transform: translateY(-1px);
+    color: var(--color-text-inverse) !important;
   }
 
   .ds-footer__btn:active {
@@ -94,12 +96,20 @@
     transform: translateY(0);
   }
 
+  /* Иконки в CTA-кнопках: 24px (mc-icon--md), явно белые */
+  .ds-footer__btn .mc-icon--md {
+    width: var(--icon-md); /* 24px */
+    height: var(--icon-md);
+    color: var(--color-text-inverse);
+    flex-shrink: 0;
+  }
+
   .ds-footer__btn--tg {
     background: var(--color-accent);
   }
 
   .ds-footer__btn--wa {
-    /* ⚠️ WhatsApp brand #25D366 not in system, used var(--color-success) #16A34A */
+    /* ⚠️ WhatsApp brand #25D366 не в системе, использован var(--color-success) #16A34A */
     background: var(--color-success);
   }
 
@@ -130,6 +140,11 @@
     max-width: 190px;
   }
 
+  /* Убираем padding-left со всех колонок */
+  .ds-footer__col {
+    padding-left: 0;
+  }
+
   .ds-footer__logo-link {
     display: inline-block;
     margin-bottom: var(--space-4);
@@ -147,26 +162,38 @@
   /* Nav column */
   .ds-footer__nav {
     list-style: none;
+    /* Убираем padding-left полностью */
     padding: 0;
-    padding-left: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
   }
 
-  .ds-footer__nav a {
+  /*
+    АУДИТ: причина неработающего цвета ссылок.
+    Tilda подключает глобальные стили с высокой специфичностью вида:
+      .t-records a, .t-records a:visited { color: #EC6724 }
+    Это перебивает наш .ds-footer__nav a.
+    Решение: повышаем специфичность через двойной класс обёртки
+    и добавляем !important только там, где Tilda точно переопределяет.
+  */
+  .ds-footer .ds-footer__nav a,
+  .ds-footer .ds-footer__nav a:visited,
+  .ds-footer .ds-footer__nav a:link {
     display: block;
     font-size: var(--text-md);
     line-height: var(--lh-text);
-    color: var(--color-text-link);
+    /* --color-text-link = var(--color-black) = #1C1C1C */
+    color: var(--color-text-link) !important;
     text-decoration: none;
     padding: var(--space-2) 0;
     transition: color var(--transition-fast);
   }
 
-  .ds-footer__nav a:hover {
-    color: var(--color-text-link-hover);
+  .ds-footer .ds-footer__nav a:hover {
+    /* --color-text-link-hover = var(--color-brand-500) = #EC6724 */
+    color: var(--color-text-link-hover) !important;
   }
 
   /* Column labels */
@@ -181,37 +208,41 @@
   /* Social & contacts lists */
   .ds-footer__list {
     list-style: none;
+    /* Убираем padding-left полностью */
     padding: 0;
-    padding-left: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
   }
 
-  .ds-footer__list a {
+  /*
+    АУДИТ (аналогично nav): Tilda может переопределять цвет ссылок глобально.
+    Повышаем специфичность + !important для надёжной победы над Tilda.
+  */
+  .ds-footer .ds-footer__list a,
+  .ds-footer .ds-footer__list a:visited,
+  .ds-footer .ds-footer__list a:link {
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
     font-size: var(--text-md);
     line-height: var(--lh-text);
-    color: var(--color-text-link);
+    color: var(--color-text-link) !important;
     text-decoration: none;
     padding: var(--space-1) 0;
     transition: color var(--transition-fast);
   }
 
-  .ds-footer__list a:hover {
-    color: var(--color-text-link-hover);
+  .ds-footer .ds-footer__list a:hover {
+    color: var(--color-text-link-hover) !important;
   }
 
-  .ds-footer__list .mc-icon {
-    color: var(--color-text-link);
+  /* Иконки в списках: 18px, наследуют цвет от родительского <a> */
+  .ds-footer .ds-footer__list .mc-icon--18,
+  .ds-footer .ds-footer__nav .mc-icon--18 {
+    color: inherit;
     transition: color var(--transition-fast);
-  }
-
-  .ds-footer__list a:hover .mc-icon {
-    color: var(--color-text-link-hover);
   }
 
   .ds-footer__manager {
@@ -285,8 +316,8 @@
       max-width: 100%;
     }
 
-    .ds-footer__nav a,
-    .ds-footer__list a {
+    .ds-footer .ds-footer__nav a,
+    .ds-footer .ds-footer__list a {
       min-height: 32px;
       align-items: center;
     }
