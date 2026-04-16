@@ -52,10 +52,11 @@
   align-items: center;
   gap: var(--space-1);
 }
-/* Правка 4: фиксируем высоту айтемов чтобы не прыгал контейнер при открытии дропдауна */
+
+/* Правка 1: фиксируем высоту строки, чтобы padding-изменение кнопки не прыгало */
 .ds-header__item {
   position: relative;
-  height: 38px;
+  height: 54px;
   display: flex;
   align-items: center;
 }
@@ -65,7 +66,8 @@
   align-items: center;
   gap: var(--space-1);
   padding: var(--space-2) var(--space-3);
-  height: 38px;
+  /* Правка 1: фиксированная высота чтобы padding-смена не влияла на строку */
+  min-height: 38px;
   font-family: var(--font-body);
   font-size: var(--text-md);
   font-weight: var(--fw-medium);
@@ -77,8 +79,7 @@
   cursor: pointer;
   white-space: nowrap;
   line-height: 1;
-  transition: color var(--transition-base) !important, background var(--transition-base);
-  /* Правка 4: блокируем влияние padding-изменения на высоту родителя */
+  transition: color var(--transition-base) !important, background var(--transition-base), padding var(--transition-base);
   box-sizing: border-box;
 }
 .ds-header__link:link,
@@ -86,7 +87,7 @@
   color: var(--color-text-link) !important;
 }
 
-/* Правка 1: hover на обычных текст-линках */
+/* Обычные nav-ссылки hover */
 .ds-header__nav .ds-header__item:not(#nav-zhilye):not(#nav-eshe) .ds-header__link:hover {
   color: var(--color-brand-500) !important;
   background: none;
@@ -128,22 +129,24 @@
 
 /* ── Dropdown base ── */
 .ds-header__drop {
-  display: none;
   position: absolute;
   top: calc(100% + var(--space-3));
-  /* Правки 2 и 3: фон --color-neutral-600 */
-  background: var(--color-neutral-600);
+  /* Правка 2: явно прописываем --color-neutral-600 через hex-значение токена,
+     так как Tilda может не иметь :root с этим токеном */
+  background: #525252; /* = var(--color-neutral-600) */
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-2xl);
   padding: var(--space-3);
   z-index: 200;
+  /* Скрыт через visibility+opacity вместо display:none — чтобы CSS-переходы работали */
+  visibility: hidden;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-4px);
-  transition: opacity var(--transition-base), transform var(--transition-base);
+  transform: translateY(-6px);
+  transition: opacity var(--transition-base), transform var(--transition-base), visibility var(--transition-base);
 }
 .ds-header__item.is-open .ds-header__drop {
-  display: block;
+  visibility: visible;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
@@ -178,7 +181,7 @@
   transition: filter var(--transition-base) !important;
 }
 .ds-ddi:hover {
-  filter: brightness(1.35);
+  filter: brightness(1.3);
 }
 .ds-ddi__icon {
   width: 32px !important;
@@ -216,16 +219,14 @@
   color: var(--color-text-inverse) !important;
   text-decoration: none !important;
   border-radius: var(--radius-xl);
-  /* Правка 3: hover — background --color-neutral-800 */
   transition: background var(--transition-base) !important, color var(--transition-base) !important;
 }
 .ds-header__drop--simple .ds-ddl:hover {
   color: var(--color-text-inverse) !important;
-  background: var(--color-neutral-800);
-  filter: none;
+  background: #404040; /* = var(--color-neutral-700) */
 }
 
-/* ── CTA ── */
+/* ── CTA (десктоп + drawer) ── */
 .ds-header__cta {
   display: inline-flex;
   align-items: center;
@@ -273,7 +274,7 @@
   flex-shrink: 0;
 }
 
-/* Правка 5: CTA в мобильной шапке (между лого и бургером) */
+/* Правка 5: мобильный CTA между лого и бургером */
 .ds-header__cta--mobile-inner {
   display: none;
 }
@@ -291,14 +292,13 @@
   flex-shrink: 0;
   padding: var(--space-2);
   border-radius: var(--radius-md);
-  margin-left: auto;
+  margin-left: var(--space-2);
   transition: background var(--transition-base);
   color: var(--color-text);
 }
 .ds-header__burger:hover {
   background: var(--color-surface-2);
 }
-/* Правка 6: иконка бургера через sprite */
 .ds-header__burger svg {
   width: 20px !important;
   height: 14px !important;
@@ -327,18 +327,21 @@
   pointer-events: auto;
 }
 
+/* Правка 3: убираем right:0 и фиксацию по правому краю у drawer */
 .ds-header__drawer {
   position: fixed;
   top: 0;
+  left: 0;        /* прикрепляем к левому краю */
   right: 0;
-  width: 75vw;
+  width: 100%;
   max-width: 400px;
   height: 100vh;
   background: var(--color-bg);
   z-index: 900;
   display: flex;
   flex-direction: column;
-  transform: translateX(100%);
+  /* Правка 3: выезжает слева */
+  transform: translateX(-100%);
   transition: transform var(--transition-slow);
   overflow: hidden;
 }
@@ -346,7 +349,7 @@
   transform: translateX(0);
 }
 
-/* Правка 7: шапка drawer — лого слева, кнопка закрыть справа */
+/* Шапка drawer */
 .ds-drw-top {
   display: flex;
   align-items: center;
@@ -356,8 +359,10 @@
   border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
 }
+
+/* Правка 4: CTA в drawer — var(--color-accent), НЕ primary */
 .ds-drw-top .ds-header__cta {
-  background: var(--color-primary);
+  background: var(--color-accent) !important;
   height: 38px;
   padding: 0 var(--space-4);
   order: -1;
@@ -386,7 +391,6 @@
   color: var(--color-text);
   border-radius: var(--radius-md);
   transition: background var(--transition-base);
-  /* Правка 7: кнопка правее */
   order: 1;
   margin-left: auto;
 }
@@ -415,9 +419,9 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  /* Правки 8 и 10: padding-left 20px явно прописан */
+  /* Правка 5: padding-left 40px */
   padding: var(--space-4) var(--space-5);
-  padding-left: var(--space-5) !important;
+  padding-left: 40px !important;
   font-family: var(--font-body);
   font-size: var(--text-xl);
   font-weight: var(--fw-semibold);
@@ -442,18 +446,18 @@
   flex-shrink: 0;
   transition: transform var(--transition-base);
 }
-.ds-acc-item.is-open .ds-acc-trigger svg {
-  transform: rotate(180deg);
+/* Правка 6: стрелка аккордеона скрыта — тело всегда открыто */
+.ds-acc-trigger .ds-acc-chev {
+  display: none !important;
 }
+
+/* Правка 6: ds-acc-body всегда открыт */
 .ds-acc-body {
-  display: none;
-  /* Правки 8 и 10: padding-left 20px, явный !important против Tilda */
+  display: block !important;
   padding: 0 var(--space-5) var(--space-4);
-  padding-left: var(--space-5) !important;
+  /* Правка 5: padding-left 40px */
+  padding-left: 40px !important;
   padding-right: var(--space-5) !important;
-}
-.ds-acc-item.is-open .ds-acc-body {
-  display: block;
 }
 
 /* Обычная ссылка в drawer */
@@ -462,9 +466,9 @@
 .ds-header__drawer .ds-mob-link:visited {
   display: flex;
   align-items: center;
-  /* Правка 10: padding-left 20px */
+  /* Правка 5: padding-left 40px */
   padding: var(--space-4) var(--space-5);
-  padding-left: var(--space-5) !important;
+  padding-left: 40px !important;
   font-family: var(--font-body);
   font-size: var(--text-xl);
   font-weight: var(--fw-semibold);
@@ -499,13 +503,6 @@
   border-top: 1px solid var(--color-border);
 }
 .ds-mob-card-item:hover {
-  background: var(--color-surface) !important;
-}
-/* Правка 9: убираем статичный is-active hover-стиль */
-.ds-mob-card-item.is-active {
-  background: transparent;
-}
-.ds-mob-card-item.is-active:hover {
   background: var(--color-surface) !important;
 }
 .ds-mob-card-icon {
@@ -555,17 +552,14 @@
 /* ── Адаптив ── */
 @media (max-width: 960px) {
   .ds-header__nav,
-  /* Скрываем десктопный CTA */
-  .ds-header__inner > .ds-header__cta {
+  .ds-header__inner > a.ds-header__cta:not(.ds-header__cta--mobile-inner) {
     display: none;
   }
   .ds-header__burger {
     display: flex;
   }
-  /* Правка 5: показываем мобильный CTA */
   .ds-header__cta--mobile-inner {
     display: inline-flex;
-    margin-left: auto;
   }
 }
 @media (max-width: 480px) {
@@ -574,29 +568,20 @@
     height: 64px;
   }
   .ds-header__drawer {
-    width: 100vw;
     max-width: 100vw;
   }
 }
 </style>
 
-<!-- SVG Sprite (вставляется один раз в начале страницы) -->
+<!-- SVG Sprite -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
-  <!-- Burger -->
   <symbol id="icon-burger" viewBox="0 0 20 14">
     <path d="M3 7H14.5M1 1H19M5.5 13H11.5"
       fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
-  <!-- Close -->
   <symbol id="icon-close" viewBox="0 0 14 14">
     <path d="M13 1L1 13M1 1L13 13"
-      fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round"/>
-  </symbol>
-  <!-- Chevron Down -->
-  <symbol id="icon-chevron-down" viewBox="0 0 14 8">
-    <path d="M1 1L7 7L13 1"
       fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
@@ -718,7 +703,7 @@
       Чат 24/7
     </a>
 
-    <!-- Правка 5: мобильный CTA между лого и бургером -->
+    <!-- Мобильный CTA между лого и бургером -->
     <a href="PLACEHOLDER_URL" class="ds-header__cta ds-header__cta--mobile-inner" aria-label="Написать в чат 24/7">
       <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
         <path d="M1 7.5L13.5 2L9 13L7 8.5L1 7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
@@ -727,7 +712,6 @@
       Чат 24/7
     </a>
 
-    <!-- Правка 6: иконка бургера из спрайта #icon-burger -->
     <button class="ds-header__burger" id="ds-burger" aria-label="Открыть меню" aria-expanded="false">
       <svg aria-hidden="true" focusable="false">
         <use href="#icon-burger"></use>
@@ -738,7 +722,6 @@
   <div class="ds-header__overlay" id="ds-overlay" aria-hidden="true"></div>
 
   <div class="ds-header__drawer" id="ds-drawer" role="dialog" aria-modal="true" aria-label="Меню">
-    <!-- Правка 7: CTA слева (order:-1), кнопка закрыть справа (order:1, margin-left:auto) -->
     <div class="ds-drw-top">
       <a href="PLACEHOLDER_URL" class="ds-header__cta" aria-label="Написать в чат 24/7">
         <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="15" height="15">
@@ -747,7 +730,6 @@
         </svg>
         Чат 24/7
       </a>
-      <!-- Правка 7: иконка #icon-close из спрайта -->
       <button class="ds-drw-close" id="ds-drw-close" aria-label="Закрыть меню">
         <svg aria-hidden="true" focusable="false">
           <use href="#icon-close"></use>
@@ -757,10 +739,12 @@
 
     <div class="ds-drw-body">
 
-      <div class="ds-acc-item is-open" id="mob-zhilye">
+      <!-- Правка 6: is-open убран из класса, тело всегда показано через CSS display:block -->
+      <div class="ds-acc-item" id="mob-zhilye">
         <button class="ds-acc-trigger" aria-expanded="true" aria-controls="mob-zhilye-body">
           Жильё
-          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <!-- Правка 6: стрелка скрыта через CSS -->
+          <svg class="ds-acc-chev" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path d="M4 7L9 12L14 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
@@ -801,7 +785,6 @@
                 <div class="ds-mob-card-desc">Квартиры от застройщиков — для жизни или инвестиций.</div>
               </div>
             </a>
-            <!-- Правка 9: is-active убран, статичный hover-стиль удалён -->
             <a href="PLACEHOLDER_URL" class="ds-mob-card-item">
               <svg class="ds-mob-card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                 <rect x="4" y="8" width="24" height="20" rx="1" stroke="currentColor" stroke-width="1.6"/>
@@ -829,9 +812,9 @@
       <a href="PLACEHOLDER_URL" class="ds-mob-link">Акции</a>
 
       <div class="ds-acc-item" id="mob-eshe">
-        <button class="ds-acc-trigger" aria-expanded="false" aria-controls="mob-eshe-body">
+        <button class="ds-acc-trigger" aria-expanded="true" aria-controls="mob-eshe-body">
           Ещё
-          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <svg class="ds-acc-chev" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
             <path d="M4 7L9 12L14 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
@@ -861,28 +844,23 @@
 
   if (!hdr || !burger || !overlay || !drawer || !closeBtn) { return; }
 
-  /* ── Tilda link color fix — run at 3 points ── */
+  /* ── Tilda link color override — 3 точки запуска ── */
   function fixLinkColors() {
-    /* Nav links (не Жильё/Ещё) */
     hdr.querySelectorAll('.ds-header__nav .ds-header__item:not(#nav-zhilye):not(#nav-eshe) a.ds-header__link').forEach(function(a) {
       a.style.setProperty('color', 'var(--color-text-link)', 'important');
       a.style.setProperty('text-decoration', 'none', 'important');
     });
-    /* Dropdown --simple */
     hdr.querySelectorAll('.ds-header__drop--simple .ds-ddl').forEach(function(a) {
       a.style.setProperty('color', 'var(--color-text-inverse)', 'important');
       a.style.setProperty('text-decoration', 'none', 'important');
     });
-    /* Dropdown --rich */
     hdr.querySelectorAll('.ds-header__drop--rich .ds-ddi').forEach(function(a) {
       a.style.setProperty('text-decoration', 'none', 'important');
     });
-    /* CTA */
     hdr.querySelectorAll('a.ds-header__cta').forEach(function(a) {
       a.style.setProperty('color', 'var(--color-text-inverse)', 'important');
       a.style.setProperty('text-decoration', 'none', 'important');
     });
-    /* Mob links */
     hdr.querySelectorAll('.ds-mob-link, .ds-mob-card-item, .ds-mob-slink').forEach(function(a) {
       a.style.setProperty('text-decoration', 'none', 'important');
     });
@@ -891,7 +869,7 @@
   document.addEventListener('DOMContentLoaded', fixLinkColors);
   window.addEventListener('load', fixLinkColors);
 
-  /* ── Hover для Tilda-overridden ссылок (правка 1) ── */
+  /* ── Hover для nav-ссылок (Tilda override) ── */
   hdr.querySelectorAll('.ds-header__nav .ds-header__item:not(#nav-zhilye):not(#nav-eshe) a.ds-header__link').forEach(function(a) {
     a.addEventListener('mouseenter', function() {
       a.style.setProperty('color', 'var(--color-brand-500)', 'important');
@@ -907,12 +885,14 @@
     overlay.classList.add('is-visible');
     overlay.setAttribute('aria-hidden', 'false');
     burger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
   }
   function closeDrawer() {
     drawer.classList.remove('is-open');
     overlay.classList.remove('is-visible');
     overlay.setAttribute('aria-hidden', 'true');
     burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
   }
 
   burger.addEventListener('click', openDrawer);
@@ -920,7 +900,7 @@
   overlay.addEventListener('click', closeDrawer);
 
   /* ── Dropdowns с задержкой закрытия ── */
-  var CLOSE_DELAY = 180;
+  var CLOSE_DELAY = 200;
 
   function closeItem(item) {
     if (!item) { return; }
@@ -979,16 +959,6 @@
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') { ddItems.forEach(closeItem); closeDrawer(); }
-  });
-
-  /* ── Accordion ── */
-  hdr.querySelectorAll('.ds-acc-item').forEach(function (acc) {
-    var trig = acc.querySelector('.ds-acc-trigger');
-    if (!trig) { return; }
-    trig.addEventListener('click', function () {
-      var isOpen = acc.classList.toggle('is-open');
-      trig.setAttribute('aria-expanded', String(isOpen));
-    });
   });
 })();
 </script>
