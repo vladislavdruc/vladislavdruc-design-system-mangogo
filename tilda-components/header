@@ -53,7 +53,7 @@
   gap: var(--space-1);
 }
 
-/* Правка 1: фиксируем высоту строки, чтобы padding-изменение кнопки не прыгало */
+/* Правка 1: фиксированная высота строки — убирает прыжок при открытии */
 .ds-header__item {
   position: relative;
   height: 54px;
@@ -66,8 +66,7 @@
   align-items: center;
   gap: var(--space-1);
   padding: var(--space-2) var(--space-3);
-  /* Правка 1: фиксированная высота чтобы padding-смена не влияла на строку */
-  min-height: 38px;
+  height: 38px;
   font-family: var(--font-body);
   font-size: var(--text-md);
   font-weight: var(--fw-medium);
@@ -79,8 +78,10 @@
   cursor: pointer;
   white-space: nowrap;
   line-height: 1;
-  transition: color var(--transition-base) !important, background var(--transition-base), padding var(--transition-base);
   box-sizing: border-box;
+  transition: color var(--transition-base) !important,
+              background var(--transition-base),
+              padding var(--transition-base);
 }
 .ds-header__link:link,
 .ds-header__link:visited {
@@ -104,17 +105,14 @@
   transition: transform var(--transition-base);
 }
 
-/* Жильё и Ещё */
-#nav-zhilye > .ds-header__link,
-#nav-eshe   > .ds-header__link {
-  color: var(--color-text-link);
-}
+/* Жильё и Ещё: hover */
 #nav-zhilye > .ds-header__link:hover,
 #nav-eshe   > .ds-header__link:hover {
   padding: var(--space-3) var(--space-6);
   background: var(--color-black);
   color: var(--color-text-inverse) !important;
 }
+/* Жильё и Ещё: открытое состояние */
 .ds-header__item.is-open > .ds-header__link {
   padding: var(--space-3) var(--space-6);
   background: var(--color-black);
@@ -130,37 +128,37 @@
 /* ── Dropdown base ── */
 .ds-header__drop {
   position: absolute;
-  top: calc(100% + var(--space-3));
-  /* Правка 2: явно прописываем --color-neutral-600 через hex-значение токена,
-     так как Tilda может не иметь :root с этим токеном */
-  background: #525252; /* = var(--color-neutral-600) */
+  top: 100%;
+  /* Правка 2: background задаётся через style напрямую,
+     но также дублируем fallback тут.
+     Нейтральный-600 из системы = примерно #404040 */
+  background: #404040;
   border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-2xl);
   padding: var(--space-3);
   z-index: 200;
-  /* Скрыт через visibility+opacity вместо display:none — чтобы CSS-переходы работали */
-  visibility: hidden;
-  opacity: 0;
+  /* по умолчанию скрыт */
+  display: none;
   pointer-events: none;
-  transform: translateY(-6px);
-  transition: opacity var(--transition-base), transform var(--transition-base), visibility var(--transition-base);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity var(--transition-base), transform var(--transition-base);
+}
+/* Мост-невидимка чтобы курсор не уходил с дропдауна */
+.ds-header__drop::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 14px;
 }
 .ds-header__item.is-open .ds-header__drop {
-  visibility: visible;
+  display: block;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
-/* Мост между триггером и дропдауном */
-.ds-header__drop::before {
-  content: '';
-  position: absolute;
-  top: calc(-1 * var(--space-3) - 2px);
-  left: 0;
-  right: 0;
-  height: calc(var(--space-3) + 4px);
-}
-
 .ds-header__drop--rich {
   left: 0;
   width: 320px;
@@ -178,18 +176,21 @@
   padding: var(--space-3);
   border-radius: var(--radius-xl);
   text-decoration: none !important;
-  transition: filter var(--transition-base) !important;
+  /* Правка 1: hover на rich item */
+  transition: background var(--transition-base) !important;
 }
 .ds-ddi:hover {
-  filter: brightness(1.3);
+  background: #303030; /* --color-neutral-800 fallback */
 }
+
+/* Иконки в rich дропдауне: 24px (правки 2–5) */
 .ds-ddi__icon {
-  width: 32px !important;
-  height: 32px !important;
-  min-width: 32px !important;
-  min-height: 32px !important;
-  max-width: 32px !important;
-  max-height: 32px !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
   flex-shrink: 0;
   color: var(--color-primary);
   margin-top: 2px;
@@ -223,10 +224,10 @@
 }
 .ds-header__drop--simple .ds-ddl:hover {
   color: var(--color-text-inverse) !important;
-  background: #404040; /* = var(--color-neutral-700) */
+  background: #303030; /* --color-neutral-800 */
 }
 
-/* ── CTA (десктоп + drawer) ── */
+/* ── CTA ── */
 .ds-header__cta {
   display: inline-flex;
   align-items: center;
@@ -274,7 +275,7 @@
   flex-shrink: 0;
 }
 
-/* Правка 5: мобильный CTA между лого и бургером */
+/* Мобильный CTA (между лого и бургером) */
 .ds-header__cta--mobile-inner {
   display: none;
 }
@@ -292,7 +293,7 @@
   flex-shrink: 0;
   padding: var(--space-2);
   border-radius: var(--radius-md);
-  margin-left: var(--space-2);
+  margin-left: auto;
   transition: background var(--transition-base);
   color: var(--color-text);
 }
@@ -327,29 +328,28 @@
   pointer-events: auto;
 }
 
-/* Правка 3: убираем right:0 и фиксацию по правому краю у drawer */
+/* Правки 6 и 7: drawer — полностью адаптивный флекс, без фиксированного px */
 .ds-header__drawer {
   position: fixed;
   top: 0;
-  left: 0;        /* прикрепляем к левому краю */
   right: 0;
-  width: 100%;
-  max-width: 400px;
-  height: 100vh;
+  /* Правка 6: ширина в % от вьюпорта, не фиксированная */
+  width: min(400px, 100vw);
+  height: 100dvh;
   background: var(--color-bg);
   z-index: 900;
   display: flex;
   flex-direction: column;
-  /* Правка 3: выезжает слева */
-  transform: translateX(-100%);
+  transform: translateX(100%);
   transition: transform var(--transition-slow);
+  /* Правка 7: overflow скрыт на контейнере, содержимое не выходит */
   overflow: hidden;
 }
 .ds-header__drawer.is-open {
   transform: translateX(0);
 }
 
-/* Шапка drawer */
+/* Шапка дравера */
 .ds-drw-top {
   display: flex;
   align-items: center;
@@ -358,14 +358,16 @@
   height: 64px;
   border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
+  /* Правка 6: min-width 0 чтобы flex-дети не вылезали */
+  min-width: 0;
+  gap: var(--space-3);
 }
-
-/* Правка 4: CTA в drawer — var(--color-accent), НЕ primary */
 .ds-drw-top .ds-header__cta {
-  background: var(--color-accent) !important;
+  background: var(--color-accent);
   height: 38px;
   padding: 0 var(--space-4);
   order: -1;
+  flex-shrink: 0;
 }
 .ds-drw-top .ds-header__cta,
 .ds-drw-top .ds-header__cta:link,
@@ -385,6 +387,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
+  min-width: 44px;
   background: none;
   border: none;
   cursor: pointer;
@@ -393,6 +396,7 @@
   transition: background var(--transition-base);
   order: 1;
   margin-left: auto;
+  flex-shrink: 0;
 }
 .ds-drw-close:hover {
   background: var(--color-surface-2);
@@ -410,10 +414,14 @@
 .ds-drw-body {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden; /* Правка 7: нет горизонтального скролла */
   padding: var(--space-2) 0 var(--space-8);
+  /* Правка 7: ограничиваем ширину контента */
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* ── Аккордеон ── */
+/* ── Аккордеон триггеры ── */
 .ds-acc-trigger {
   display: flex;
   align-items: center;
@@ -431,6 +439,12 @@
   cursor: pointer;
   text-align: left;
   min-height: 56px;
+  /* Правка 7: не даём тексту вылезать */
+  box-sizing: border-box;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: color var(--transition-base);
 }
 .ds-acc-trigger:hover {
@@ -446,27 +460,27 @@
   flex-shrink: 0;
   transition: transform var(--transition-base);
 }
-/* Правка 6: стрелка аккордеона скрыта — тело всегда открыто */
-.ds-acc-trigger .ds-acc-chev {
-  display: none !important;
+.ds-acc-item.is-open .ds-acc-trigger svg {
+  transform: rotate(180deg);
 }
 
-/* Правка 6: ds-acc-body всегда открыт */
+/* Правка 6: ds-acc-body всегда открыт (display:block без is-open) */
 .ds-acc-body {
-  display: block !important;
+  display: block;
   padding: 0 var(--space-5) var(--space-4);
-  /* Правка 5: padding-left 40px */
-  padding-left: 40px !important;
+  padding-left: var(--space-5) !important;
   padding-right: var(--space-5) !important;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 /* Обычная ссылка в drawer */
+/* Правка 5: padding-left 40px */
 .ds-header__drawer .ds-mob-link,
 .ds-header__drawer .ds-mob-link:link,
 .ds-header__drawer .ds-mob-link:visited {
   display: flex;
   align-items: center;
-  /* Правка 5: padding-left 40px */
   padding: var(--space-4) var(--space-5);
   padding-left: 40px !important;
   font-family: var(--font-body);
@@ -475,18 +489,27 @@
   color: var(--color-text) !important;
   text-decoration: none !important;
   min-height: 56px;
+  /* Правка 7: не вылезают за контейнер */
+  width: 100%;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: color var(--transition-base) !important;
 }
 .ds-header__drawer .ds-mob-link:hover {
   color: var(--color-primary) !important;
 }
 
-/* Rich карточка Жильё (mobile) */
+/* Rich карточки в drawer */
 .ds-mob-card {
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2xl);
   overflow: hidden;
+  /* Правка 7: не выходит за пределы родителя */
+  width: 100%;
+  box-sizing: border-box;
 }
 .ds-mob-card-item,
 .ds-mob-card-item:link,
@@ -498,6 +521,9 @@
   text-decoration: none !important;
   transition: background var(--transition-base) !important;
   background: transparent;
+  /* Правка 7 */
+  width: 100%;
+  box-sizing: border-box;
 }
 .ds-mob-card-item + .ds-mob-card-item {
   border-top: 1px solid var(--color-border);
@@ -505,13 +531,15 @@
 .ds-mob-card-item:hover {
   background: var(--color-surface) !important;
 }
+
+/* Иконки в карточках мобильного меню: 24px (правки 2–5) */
 .ds-mob-card-icon {
-  width: 32px !important;
-  height: 32px !important;
-  min-width: 32px !important;
-  min-height: 32px !important;
-  max-width: 32px !important;
-  max-height: 32px !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
   flex-shrink: 0;
   color: var(--color-primary);
   margin-top: 2px;
@@ -527,6 +555,13 @@
   font-size: var(--text-sm);
   color: var(--color-text-muted);
   line-height: 1.45;
+  /* Правка 7: перенос слов */
+  word-break: break-word;
+  white-space: normal;
+}
+.ds-mob-card-text {
+  min-width: 0;
+  flex: 1;
 }
 
 /* Простые ссылки Ещё (mobile) */
@@ -542,17 +577,19 @@
   text-decoration: none !important;
   border-radius: var(--radius-md);
   min-height: 44px;
+  width: 100%;
+  box-sizing: border-box;
   transition: color var(--transition-base) !important, background var(--transition-base);
 }
 .ds-drw-body .ds-mob-slink:hover {
   color: var(--color-primary) !important;
-  background: var(--color-primary-surface-sm);
+  background: var(--color-surface);
 }
 
 /* ── Адаптив ── */
 @media (max-width: 960px) {
   .ds-header__nav,
-  .ds-header__inner > a.ds-header__cta:not(.ds-header__cta--mobile-inner) {
+  .ds-header__inner > .ds-header__cta {
     display: none;
   }
   .ds-header__burger {
@@ -560,31 +597,81 @@
   }
   .ds-header__cta--mobile-inner {
     display: inline-flex;
+    margin-left: auto;
   }
 }
+
+/* Правки 6 и 7: на маленьких экранах drawer на всю ширину */
 @media (max-width: 480px) {
   .ds-header__inner {
     padding: 0 var(--space-4);
     height: 64px;
   }
   .ds-header__drawer {
-    max-width: 100vw;
+    width: 100vw;
+  }
+  .ds-acc-trigger {
+    font-size: var(--text-lg);
+    min-height: 48px;
+  }
+  .ds-header__drawer .ds-mob-link {
+    font-size: var(--text-lg);
+    min-height: 48px;
+  }
+}
+
+/* Планшет */
+@media (min-width: 481px) and (max-width: 960px) {
+  .ds-header__drawer {
+    width: min(380px, 80vw);
   }
 }
 </style>
 
-<!-- SVG Sprite -->
+<!-- SVG Sprite (один раз на странице) -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+
+  <!-- Burger -->
   <symbol id="icon-burger" viewBox="0 0 20 14">
     <path d="M3 7H14.5M1 1H19M5.5 13H11.5"
       fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
+
+  <!-- Close -->
   <symbol id="icon-close" viewBox="0 0 14 14">
     <path d="M13 1L1 13M1 1L13 13"
       fill="none" stroke="currentColor" stroke-width="2"
       stroke-linecap="round" stroke-linejoin="round"/>
   </symbol>
+
+  <!-- Chevron Down -->
+  <symbol id="icon-chevron-down" viewBox="0 0 14 8">
+    <path d="M1 1L7 7L13 1"
+      fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- Kratkosrok -->
+  <symbol id="icon-kratkosrok" viewBox="0 0 23 19">
+    <path d="M21.75 17.2502H20.25V10.5002L20.4694 10.7196C20.6104 10.8603 20.8015 10.9393 21.0007 10.9391C21.1999 10.939 21.3908 10.8597 21.5316 10.7187C21.6723 10.5777 21.7513 10.3866 21.7511 10.1874C21.7509 9.98819 21.6716 9.79722 21.5306 9.65649L12.3103 0.438992C12.029 0.1579 11.6477 0 11.25 0C10.8523 0 10.471 0.1579 10.1897 0.438992L0.969375 9.65649C0.828769 9.79722 0.749827 9.98805 0.749914 10.187C0.750002 10.3859 0.829113 10.5767 0.969844 10.7173C1.11057 10.8579 1.3014 10.9368 1.50033 10.9367C1.69927 10.9366 1.89002 10.8575 2.03062 10.7168L2.25 10.5002V17.2502H0.75C0.551088 17.2502 0.360322 17.3293 0.21967 17.4699C0.0790176 17.6106 0 17.8013 0 18.0002C0 18.1992 0.0790176 18.3899 0.21967 18.5306C0.360322 18.6712 0.551088 18.7502 0.75 18.7502H21.75C21.9489 18.7502 22.1397 18.6712 22.2803 18.5306C22.421 18.3899 22.5 18.1992 22.5 18.0002C22.5 17.8013 22.421 17.6106 22.2803 17.4699C22.1397 17.3293 21.9489 17.2502 21.75 17.2502ZM3.75 9.00024L11.25 1.50024L18.75 9.00024V17.2502H14.25V12.0002C14.25 11.8013 14.171 11.6106 14.0303 11.4699C13.8897 11.3293 13.6989 11.2502 13.5 11.2502H9C8.80109 11.2502 8.61032 11.3293 8.46967 11.4699C8.32902 11.6106 8.25 11.8013 8.25 12.0002V17.2502H3.75V9.00024ZM12.75 17.2502H9.75V12.7502H12.75V17.2502Z" fill="currentColor"/>
+  </symbol>
+
+  <!-- Dolgosrok -->
+  <symbol id="icon-dolgosrok" viewBox="0 0 21 21">
+    <path d="M20.25 19.5H18V1.5H18.75C18.9489 1.5 19.1397 1.42098 19.2803 1.28033C19.421 1.13968 19.5 0.948912 19.5 0.75C19.5 0.551088 19.421 0.360322 19.2803 0.21967C19.1397 0.0790176 18.9489 0 18.75 0H2.25C2.05109 0 1.86032 0.0790176 1.71967 0.21967C1.57902 0.360322 1.5 0.551088 1.5 0.75C1.5 0.948912 1.57902 1.13968 1.71967 1.28033C1.86032 1.42098 2.05109 1.5 2.25 1.5H3V19.5H0.75C0.551088 19.5 0.360322 19.579 0.21967 19.7197C0.0790176 19.8603 0 20.0511 0 20.25C0 20.4489 0.0790176 20.6397 0.21967 20.7803C0.360322 20.921 0.551088 21 0.75 21H20.25C20.4489 21 20.6397 20.921 20.7803 20.7803C20.921 20.6397 21 20.4489 21 20.25C21 20.0511 20.921 19.8603 20.7803 19.7197C20.6397 19.579 20.4489 19.5 20.25 19.5ZM4.5 1.5H16.5V19.5H13.5V15.75C13.5 15.5511 13.421 15.3603 13.2803 15.2197C13.1397 15.079 12.9489 15 12.75 15H8.25C8.05109 15 7.86032 15.079 7.71967 15.2197C7.57902 15.3603 7.5 15.5511 7.5 15.75V19.5H4.5V1.5ZM12 19.5H9V16.5H12V19.5ZM6.75 4.5C6.75 4.30109 6.82902 4.11032 6.96967 3.96967C7.11032 3.82902 7.30109 3.75 7.5 3.75H9C9.19891 3.75 9.38968 3.82902 9.53033 3.96967C9.67098 4.11032 9.75 4.30109 9.75 4.5C9.75 4.69891 9.67098 4.88968 9.53033 5.03033C9.38968 5.17098 9.19891 5.25 9 5.25H7.5C7.30109 5.25 7.11032 5.17098 6.96967 5.03033C6.82902 4.88968 6.75 4.69891 6.75 4.5ZM11.25 4.5C11.25 4.30109 11.329 4.11032 11.4697 3.96967C11.6103 3.82902 11.8011 3.75 12 3.75H13.5C13.6989 3.75 13.8897 3.82902 14.0303 3.96967C14.171 4.11032 14.25 4.30109 14.25 4.5C14.25 4.69891 14.171 4.88968 14.0303 5.03033C13.8897 5.17098 13.6989 5.25 13.5 5.25H12C11.8011 5.25 11.6103 5.17098 11.4697 5.03033C11.329 4.88968 11.25 4.69891 11.25 4.5ZM6.75 8.25C6.75 8.05109 6.82902 7.86032 6.96967 7.71967C7.11032 7.57902 7.30109 7.5 7.5 7.5H9C9.19891 7.5 9.38968 7.57902 9.53033 7.71967C9.67098 7.86032 9.75 8.05109 9.75 8.25C9.75 8.44891 9.67098 8.63968 9.53033 8.78033C9.38968 8.92098 9.19891 9 9 9H7.5C7.30109 9 7.11032 8.92098 6.96967 8.78033C6.82902 8.63968 6.75 8.44891 6.75 8.25ZM11.25 8.25C11.25 8.05109 11.329 7.86032 11.4697 7.71967C11.6103 7.57902 11.8011 7.5 12 7.5H13.5C13.6989 7.5 13.8897 7.57902 14.0303 7.71967C14.171 7.86032 14.25 8.05109 14.25 8.25C14.25 8.44891 14.171 8.63968 14.0303 8.78033C13.8897 8.92098 13.6989 9 13.5 9H12C11.8011 9 11.6103 8.92098 11.4697 8.78033C11.329 8.63968 11.25 8.44891 11.25 8.25ZM6.75 12C6.75 11.8011 6.82902 11.6103 6.96967 11.4697C7.11032 11.329 7.30109 11.25 7.5 11.25H9C9.19891 11.25 9.38968 11.329 9.53033 11.4697C9.67098 11.6103 9.75 11.8011 9.75 12C9.75 12.1989 9.67098 12.3897 9.53033 12.5303C9.38968 12.671 9.19891 12.75 9 12.75H7.5C7.30109 12.75 7.11032 12.671 6.96967 12.5303C6.82902 12.3897 6.75 12.1989 6.75 12ZM11.25 12C11.25 11.8011 11.329 11.6103 11.4697 11.4697C11.6103 11.329 11.8011 11.25 12 11.25H13.5C13.6989 11.25 13.8897 11.329 14.0303 11.4697C14.171 11.6103 14.25 11.8011 14.25 12C14.25 12.1989 14.171 12.3897 14.0303 12.5303C13.8897 12.671 13.6989 12.75 13.5 12.75H12C11.8011 12.75 11.6103 12.671 11.4697 12.5303C11.329 12.3897 11.25 12.1989 11.25 12Z" fill="currentColor"/>
+  </symbol>
+
+  <!-- Invest (Новостройки) -->
+  <symbol id="icon-invest" viewBox="0 0 23 20">
+    <path d="M21.75 18.001H20.25V7.50098C20.25 7.10315 20.092 6.72162 19.8107 6.44032C19.5294 6.15901 19.1478 6.00098 18.75 6.00098H12.75V1.50098C12.7502 1.22935 12.6766 0.962769 12.5371 0.729694C12.3976 0.496619 12.1974 0.305795 11.958 0.177591C11.7185 0.0493863 11.4487 -0.0113869 11.1774 0.00175769C10.9061 0.0149023 10.6435 0.101471 10.4175 0.252225L2.9175 5.25098C2.71176 5.38824 2.54315 5.57426 2.42669 5.79246C2.31023 6.01066 2.24953 6.25427 2.25 6.5016V18.001H0.75C0.551088 18.001 0.360322 18.08 0.21967 18.2206C0.0790176 18.3613 0 18.5521 0 18.751C0 18.9499 0.0790176 19.1407 0.21967 19.2813C0.360322 19.422 0.551088 19.501 0.75 19.501H21.75C21.9489 19.501 22.1397 19.422 22.2803 19.2813C22.421 19.1407 22.5 18.9499 22.5 18.751C22.5 18.5521 22.421 18.3613 22.2803 18.2206C22.1397 18.08 21.9489 18.001 21.75 18.001ZM18.75 7.50098V18.001H12.75V7.50098H18.75ZM3.75 6.5016L11.25 1.50098V18.001H3.75V6.5016ZM9.75 9.00098V10.501C9.75 10.6999 9.67098 10.8907 9.53033 11.0313C9.38968 11.172 9.19891 11.251 9 11.251C8.80109 11.251 8.61032 11.172 8.46967 11.0313C8.32902 10.8907 8.25 10.6999 8.25 10.501V9.00098C8.25 8.80206 8.32902 8.6113 8.46967 8.47065C8.61032 8.32999 8.80109 8.25098 9 8.25098C9.19891 8.25098 9.38968 8.32999 9.53033 8.47065C9.67098 8.6113 9.75 8.80206 9.75 9.00098ZM6.75 9.00098V10.501C6.75 10.6999 6.67098 10.8907 6.53033 11.0313C6.38968 11.172 6.19891 11.251 6 11.251C5.80109 11.251 5.61032 11.172 5.46967 11.0313C5.32902 10.8907 5.25 10.6999 5.25 10.501V9.00098C5.25 8.80206 5.32902 8.6113 5.46967 8.47065C5.61032 8.32999 5.80109 8.25098 6 8.25098C6.19891 8.25098 6.38968 8.32999 6.53033 8.47065C6.67098 8.6113 6.75 8.80206 6.75 9.00098ZM6.75 14.251V15.751C6.75 15.9499 6.67098 16.1407 6.53033 16.2813C6.38968 16.422 6.19891 16.501 6 16.501C5.80109 16.501 5.61032 16.422 5.46967 16.2813C5.32902 16.1407 5.25 15.9499 5.25 15.751V14.251C5.25 14.0521 5.32902 13.8613 5.46967 13.7206C5.61032 13.58 5.80109 13.501 6 13.501C6.19891 13.501 6.38968 13.58 6.53033 13.7206C6.67098 13.8613 6.75 14.0521 6.75 14.251ZM9.75 14.251V15.751C9.75 15.9499 9.67098 16.1407 9.53033 16.2813C9.38968 16.422 9.19891 16.501 9 16.501C8.80109 16.501 8.61032 16.422 8.46967 16.2813C8.32902 16.1407 8.25 15.9499 8.25 15.751V14.251C8.25 14.0521 8.32902 13.8613 8.46967 13.7206C8.61032 13.58 8.80109 13.501 9 13.501C9.19891 13.501 9.38968 13.58 9.53033 13.7206C9.67098 13.8613 9.75 14.0521 9.75 14.251Z" fill="currentColor"/>
+  </symbol>
+
+  <!-- Vtoricka -->
+  <symbol id="icon-vtoricka" viewBox="0 0 23 18">
+    <path d="M21.75 16.5H21V3.75C21 3.55109 20.921 3.36032 20.7803 3.21967C20.6397 3.07902 20.4489 3 20.25 3H16.5V0.75C16.5 0.551088 16.421 0.360322 16.2803 0.21967C16.1397 0.0790178 15.9489 0 15.75 0H6.75C6.55109 0 6.36032 0.0790178 6.21967 0.21967C6.07902 0.360322 6 0.551088 6 0.75V6H2.25C2.05109 6 1.86032 6.07902 1.71967 6.21967C1.57902 6.36032 1.5 6.55109 1.5 6.75V16.5H0.75C0.551088 16.5 0.360322 16.579 0.21967 16.7197C0.0790176 16.8603 0 17.0511 0 17.25C0 17.4489 0.0790176 17.6397 0.21967 17.7803C0.360322 17.921 0.551088 18 0.75 18H21.75C21.9489 18 22.1397 17.921 22.2803 17.7803C22.421 17.6397 22.5 17.4489 22.5 17.25C22.5 17.0511 22.421 16.8603 22.2803 16.7197C22.1397 16.579 21.9489 16.5 21.75 16.5ZM3 7.5H6.75C6.94891 7.5 7.13968 7.42098 7.28033 7.28033C7.42098 7.13968 7.5 6.94891 7.5 6.75V1.5H15V3.75C15 3.94891 15.079 4.13968 15.2197 4.28033C15.3603 4.42098 15.5511 4.5 15.75 4.5H19.5V16.5H13.5V12.75C13.5 12.5511 13.421 12.3603 13.2803 12.2197C13.1397 12.079 12.9489 12 12.75 12H9.75C9.55109 12 9.36032 12.079 9.21967 12.2197C9.07902 12.3603 9 12.5511 9 12.75V16.5H3V7.5ZM12 16.5H10.5V13.5H12V16.5ZM9.75 3.75C9.75 3.55109 9.82902 3.36032 9.96967 3.21967C10.1103 3.07902 10.3011 3 10.5 3H12C12.1989 3 12.3897 3.07902 12.5303 3.21967C12.671 3.36032 12.75 3.55109 12.75 3.75C12.75 3.94891 12.671 4.13968 12.5303 4.28033C12.3897 4.42098 12.1989 4.5 12 4.5H10.5C10.3011 4.5 10.1103 4.42098 9.96967 4.28033C9.82902 4.13968 9.75 3.94891 9.75 3.75ZM9.75 6.75C9.75 6.55109 9.82902 6.36032 9.96967 6.21967C10.1103 6.07902 10.3011 6 10.5 6H12C12.1989 6 12.3897 6.07902 12.5303 6.21967C12.671 6.36032 12.75 6.55109 12.75 6.75C12.75 6.94891 12.671 7.13968 12.5303 7.28033C12.3897 7.42098 12.1989 7.5 12 7.5H10.5C10.3011 7.5 10.1103 7.42098 9.96967 7.28033C9.82902 7.13968 9.75 6.94891 9.75 6.75ZM15 6.75C15 6.55109 15.079 6.36032 15.2197 6.21967C15.3603 6.07902 15.5511 6 15.75 6H17.25C17.4489 6 17.6397 6.07902 17.7803 6.21967C17.921 6.36032 18 6.55109 18 6.75C18 6.94891 17.921 7.13968 17.7803 7.28033C17.6397 7.42098 17.4489 7.5 17.25 7.5H15.75C15.5511 7.5 15.3603 7.42098 15.2197 7.28033C15.079 7.13968 15 6.94891 15 6.75ZM7.5 9.75C7.5 9.94891 7.42098 10.1397 7.28033 10.2803C7.13968 10.421 6.94891 10.5 6.75 10.5H5.25C5.05109 10.5 4.86032 10.421 4.71967 10.2803C4.57902 10.1397 4.5 9.94891 4.5 9.75C4.5 9.55109 4.57902 9.36032 4.71967 9.21967C4.86032 9.07902 5.05109 9 5.25 9H6.75C6.94891 9 7.13968 9.07902 7.28033 9.21967C7.42098 9.36032 7.5 9.55109 7.5 9.75ZM7.5 12.75C7.5 12.9489 7.42098 13.1397 7.28033 13.2803C7.13968 13.421 6.94891 13.5 6.75 13.5H5.25C5.05109 13.5 4.86032 13.421 4.71967 13.2803C4.57902 13.1397 4.5 12.9489 4.5 12.75C4.5 12.5511 4.57902 12.3603 4.71967 12.2197C4.86032 12.079 5.05109 12 5.25 12H6.75C6.94891 12 7.13968 12.079 7.28033 12.2197C7.42098 12.3603 7.5 12.5511 7.5 12.75ZM9.75 9.75C9.75 9.55109 9.82902 9.36032 9.96967 9.21967C10.1103 9.07902 10.3011 9 10.5 9H12C12.1989 9 12.3897 9.07902 12.5303 9.21967C12.671 9.36032 12.75 9.55109 12.75 9.75C12.75 9.94891 12.671 10.1397 12.5303 10.2803C12.3897 10.421 12.1989 10.5 12 10.5H10.5C10.3011 10.5 10.1103 10.421 9.96967 10.2803C9.82902 10.1397 9.75 9.94891 9.75 9.75ZM15 9.75C15 9.55109 15.079 9.36032 15.2197 9.21967C15.3603 9.07902 15.5511 9 15.75 9H17.25C17.4489 9 17.6397 9.07902 17.7803 9.21967C17.921 9.36032 18 9.55109 18 9.75C18 9.94891 17.921 10.1397 17.7803 10.2803C17.6397 10.421 17.4489 10.5 17.25 10.5H15.75C15.5511 10.5 15.3603 10.421 15.2197 10.2803C15.079 10.1397 15 9.94891 15 9.75ZM15 12.75C15 12.5511 15.079 12.3603 15.2197 12.2197C15.3603 12.079 15.5511 12 15.75 12H17.25C17.4489 12 17.6397 12.079 17.7803 12.2197C17.921 12.3603 18 12.5511 18 12.75C18 12.9489 17.921 13.1397 17.7803 13.2803C17.6397 13.421 17.4489 13.5 17.25 13.5H15.75C15.5511 13.5 15.3603 13.421 15.2197 13.2803C15.079 13.1397 15 12.9489 15 12.75Z" fill="currentColor"/>
+  </symbol>
+
 </svg>
 
 <header class="ds-header" id="ds-header">
@@ -607,14 +694,15 @@
         <li class="ds-header__item" id="nav-zhilye">
           <button class="ds-header__link" aria-haspopup="true" aria-expanded="false">
             Жильё
-            <svg class="ds-chev" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg class="ds-chev" viewBox="0 0 14 8" fill="none" aria-hidden="true" focusable="false">
+              <path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <div class="ds-header__drop ds-header__drop--rich" role="menu">
+          <!-- Правка 2: background через inline style с !important чтобы Tilda не перебивал -->
+          <div class="ds-header__drop ds-header__drop--rich" role="menu" style="background:#404040 !important">
             <a href="PLACEHOLDER_URL" class="ds-ddi" role="menuitem">
-              <svg class="ds-ddi__icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <path d="M5 14L16 5L27 14V27H20V20H12V27H5V14Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg class="ds-ddi__icon" aria-hidden="true" focusable="false">
+                <use href="#icon-kratkosrok"></use>
               </svg>
               <div>
                 <div class="ds-ddi__title">Краткосрок</div>
@@ -622,12 +710,8 @@
               </div>
             </a>
             <a href="PLACEHOLDER_URL" class="ds-ddi" role="menuitem">
-              <svg class="ds-ddi__icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <rect x="6" y="4" width="20" height="24" rx="1" stroke="currentColor" stroke-width="1.6"/>
-                <rect x="10" y="8" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
-                <rect x="18" y="8" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
-                <rect x="10" y="16" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
-                <rect x="18" y="16" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+              <svg class="ds-ddi__icon" aria-hidden="true" focusable="false">
+                <use href="#icon-dolgosrok"></use>
               </svg>
               <div>
                 <div class="ds-ddi__title">Долгосрок</div>
@@ -635,12 +719,8 @@
               </div>
             </a>
             <a href="PLACEHOLDER_URL" class="ds-ddi" role="menuitem">
-              <svg class="ds-ddi__icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <path d="M4 28H28" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                <rect x="7" y="14" width="11" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/>
-                <rect x="10" y="18" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M18 20H25V28H18V20Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-                <path d="M20 8H26V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <svg class="ds-ddi__icon" aria-hidden="true" focusable="false">
+                <use href="#icon-invest"></use>
               </svg>
               <div>
                 <div class="ds-ddi__title">Новостройки</div>
@@ -648,14 +728,8 @@
               </div>
             </a>
             <a href="PLACEHOLDER_URL" class="ds-ddi" role="menuitem">
-              <svg class="ds-ddi__icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <rect x="4" y="8" width="24" height="20" rx="1" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M4 14H28" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M4 20H28" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M12 14V28" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M20 14V28" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M10 4H22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                <path d="M16 4V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <svg class="ds-ddi__icon" aria-hidden="true" focusable="false">
+                <use href="#icon-vtoricka"></use>
               </svg>
               <div>
                 <div class="ds-ddi__title">Вторичка</div>
@@ -675,11 +749,11 @@
         <li class="ds-header__item" id="nav-eshe">
           <button class="ds-header__link" aria-haspopup="true" aria-expanded="false">
             Ещё
-            <svg class="ds-chev" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-              <path d="M3 5L7 9L11 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <svg class="ds-chev" viewBox="0 0 14 8" fill="none" aria-hidden="true" focusable="false">
+              <path d="M1 1L7 7L13 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <div class="ds-header__drop ds-header__drop--simple" role="menu">
+          <div class="ds-header__drop ds-header__drop--simple" role="menu" style="background:#404040 !important">
             <a href="PLACEHOLDER_URL" class="ds-ddl" role="menuitem">Визы</a>
             <a href="PLACEHOLDER_URL" class="ds-ddl" role="menuitem">Обмен валюты</a>
             <a href="PLACEHOLDER_URL" class="ds-ddl" role="menuitem">Фото/Видеосъемка</a>
@@ -696,22 +770,23 @@
 
     <!-- Десктопный CTA -->
     <a href="PLACEHOLDER_URL" class="ds-header__cta" aria-label="Написать в чат 24/7">
-      <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <svg viewBox="0 0 15 15" fill="none" aria-hidden="true" focusable="false">
         <path d="M1 7.5L13.5 2L9 13L7 8.5L1 7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
         <path d="M7 8.5L9.5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
       </svg>
       Чат 24/7
     </a>
 
-    <!-- Мобильный CTA между лого и бургером -->
+    <!-- Мобильный CTA (между лого и бургером) -->
     <a href="PLACEHOLDER_URL" class="ds-header__cta ds-header__cta--mobile-inner" aria-label="Написать в чат 24/7">
-      <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <svg viewBox="0 0 15 15" fill="none" aria-hidden="true" focusable="false">
         <path d="M1 7.5L13.5 2L9 13L7 8.5L1 7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
         <path d="M7 8.5L9.5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
       </svg>
       Чат 24/7
     </a>
 
+    <!-- Бургер -->
     <button class="ds-header__burger" id="ds-burger" aria-label="Открыть меню" aria-expanded="false">
       <svg aria-hidden="true" focusable="false">
         <use href="#icon-burger"></use>
@@ -723,13 +798,15 @@
 
   <div class="ds-header__drawer" id="ds-drawer" role="dialog" aria-modal="true" aria-label="Меню">
     <div class="ds-drw-top">
+      <!-- CTA слева -->
       <a href="PLACEHOLDER_URL" class="ds-header__cta" aria-label="Написать в чат 24/7">
-        <svg viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" width="15" height="15">
+        <svg viewBox="0 0 15 15" fill="none" aria-hidden="true" focusable="false" width="15" height="15">
           <path d="M1 7.5L13.5 2L9 13L7 8.5L1 7.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
           <path d="M7 8.5L9.5 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
         </svg>
         Чат 24/7
       </a>
+      <!-- Кнопка закрыть справа -->
       <button class="ds-drw-close" id="ds-drw-close" aria-label="Закрыть меню">
         <svg aria-hidden="true" focusable="false">
           <use href="#icon-close"></use>
@@ -739,63 +816,48 @@
 
     <div class="ds-drw-body">
 
-      <!-- Правка 6: is-open убран из класса, тело всегда показано через CSS display:block -->
-      <div class="ds-acc-item" id="mob-zhilye">
+      <!-- Жильё — аккордеон (правка 6: ds-acc-body всегда открыт) -->
+      <div class="ds-acc-item is-open" id="mob-zhilye">
         <button class="ds-acc-trigger" aria-expanded="true" aria-controls="mob-zhilye-body">
           Жильё
-          <!-- Правка 6: стрелка скрыта через CSS -->
-          <svg class="ds-acc-chev" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
             <path d="M4 7L9 12L14 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
         <div class="ds-acc-body" id="mob-zhilye-body">
           <div class="ds-mob-card">
             <a href="PLACEHOLDER_URL" class="ds-mob-card-item">
-              <svg class="ds-mob-card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <path d="M5 14L16 5L27 14V27H20V20H12V27H5V14Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg class="ds-mob-card-icon" aria-hidden="true" focusable="false">
+                <use href="#icon-kratkosrok"></use>
               </svg>
-              <div>
+              <div class="ds-mob-card-text">
                 <div class="ds-mob-card-title">Краткосрок</div>
                 <div class="ds-mob-card-desc">Жильё для отдыха на любой срок — от недели до месяца.</div>
               </div>
             </a>
             <a href="PLACEHOLDER_URL" class="ds-mob-card-item">
-              <svg class="ds-mob-card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <rect x="6" y="4" width="20" height="24" rx="1" stroke="currentColor" stroke-width="1.6"/>
-                <rect x="10" y="8" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
-                <rect x="18" y="8" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
-                <rect x="10" y="16" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
-                <rect x="18" y="16" width="4" height="4" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
+              <svg class="ds-mob-card-icon" aria-hidden="true" focusable="false">
+                <use href="#icon-dolgosrok"></use>
               </svg>
-              <div>
+              <div class="ds-mob-card-text">
                 <div class="ds-mob-card-title">Долгосрок</div>
                 <div class="ds-mob-card-desc">Апартаменты и виллы для жизни на Пхукете от 3 месяцев.</div>
               </div>
             </a>
             <a href="PLACEHOLDER_URL" class="ds-mob-card-item">
-              <svg class="ds-mob-card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <path d="M4 28H28" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                <rect x="7" y="14" width="11" height="14" rx="1" stroke="currentColor" stroke-width="1.6"/>
-                <rect x="10" y="18" width="3" height="3" rx="0.5" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M18 20H25V28H18V20Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-                <path d="M20 8H26V20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <svg class="ds-mob-card-icon" aria-hidden="true" focusable="false">
+                <use href="#icon-invest"></use>
               </svg>
-              <div>
+              <div class="ds-mob-card-text">
                 <div class="ds-mob-card-title">Новостройки</div>
                 <div class="ds-mob-card-desc">Квартиры от застройщиков — для жизни или инвестиций.</div>
               </div>
             </a>
             <a href="PLACEHOLDER_URL" class="ds-mob-card-item">
-              <svg class="ds-mob-card-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                <rect x="4" y="8" width="24" height="20" rx="1" stroke="currentColor" stroke-width="1.6"/>
-                <path d="M4 14H28" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M4 20H28" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M12 14V28" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M20 14V28" stroke="currentColor" stroke-width="1.4"/>
-                <path d="M10 4H22" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                <path d="M16 4V8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <svg class="ds-mob-card-icon" aria-hidden="true" focusable="false">
+                <use href="#icon-vtoricka"></use>
               </svg>
-              <div>
+              <div class="ds-mob-card-text">
                 <div class="ds-mob-card-title">Вторичка</div>
                 <div class="ds-mob-card-desc">Готовые объекты от собственников по всему острову.</div>
               </div>
@@ -811,10 +873,11 @@
       <a href="PLACEHOLDER_URL" class="ds-mob-link">Календарь</a>
       <a href="PLACEHOLDER_URL" class="ds-mob-link">Акции</a>
 
+      <!-- Ещё — аккордеон -->
       <div class="ds-acc-item" id="mob-eshe">
-        <button class="ds-acc-trigger" aria-expanded="true" aria-controls="mob-eshe-body">
+        <button class="ds-acc-trigger" aria-expanded="false" aria-controls="mob-eshe-body">
           Ещё
-          <svg class="ds-acc-chev" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
             <path d="M4 7L9 12L14 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
@@ -844,32 +907,41 @@
 
   if (!hdr || !burger || !overlay || !drawer || !closeBtn) { return; }
 
-  /* ── Tilda link color override — 3 точки запуска ── */
-  function fixLinkColors() {
+  /* ── Цвет-фикс (перекрываем Tilda стили) ── */
+  function fixColors() {
+    /* Обычные nav-ссылки */
     hdr.querySelectorAll('.ds-header__nav .ds-header__item:not(#nav-zhilye):not(#nav-eshe) a.ds-header__link').forEach(function(a) {
       a.style.setProperty('color', 'var(--color-text-link)', 'important');
       a.style.setProperty('text-decoration', 'none', 'important');
     });
+    /* Simple дропдаун */
     hdr.querySelectorAll('.ds-header__drop--simple .ds-ddl').forEach(function(a) {
       a.style.setProperty('color', 'var(--color-text-inverse)', 'important');
       a.style.setProperty('text-decoration', 'none', 'important');
     });
+    /* Rich дропдаун */
     hdr.querySelectorAll('.ds-header__drop--rich .ds-ddi').forEach(function(a) {
       a.style.setProperty('text-decoration', 'none', 'important');
     });
+    /* CTA кнопки */
     hdr.querySelectorAll('a.ds-header__cta').forEach(function(a) {
       a.style.setProperty('color', 'var(--color-text-inverse)', 'important');
       a.style.setProperty('text-decoration', 'none', 'important');
     });
+    /* Drawer mob-link, mob-card-item */
     hdr.querySelectorAll('.ds-mob-link, .ds-mob-card-item, .ds-mob-slink').forEach(function(a) {
       a.style.setProperty('text-decoration', 'none', 'important');
     });
+    /* Dropdown background принудительно */
+    hdr.querySelectorAll('.ds-header__drop').forEach(function(el) {
+      el.style.setProperty('background', '#404040', 'important');
+    });
   }
-  fixLinkColors();
-  document.addEventListener('DOMContentLoaded', fixLinkColors);
-  window.addEventListener('load', fixLinkColors);
+  fixColors();
+  document.addEventListener('DOMContentLoaded', fixColors);
+  window.addEventListener('load', fixColors);
 
-  /* ── Hover для nav-ссылок (Tilda override) ── */
+  /* ── Hover на nav-ссылках (правка 1) ── */
   hdr.querySelectorAll('.ds-header__nav .ds-header__item:not(#nav-zhilye):not(#nav-eshe) a.ds-header__link').forEach(function(a) {
     a.addEventListener('mouseenter', function() {
       a.style.setProperty('color', 'var(--color-brand-500)', 'important');
@@ -879,7 +951,7 @@
     });
   });
 
-  /* ── Drawer ── */
+  /* ── Drawer open/close ── */
   function openDrawer() {
     drawer.classList.add('is-open');
     overlay.classList.add('is-visible');
@@ -900,12 +972,12 @@
   overlay.addEventListener('click', closeDrawer);
 
   /* ── Dropdowns с задержкой закрытия ── */
-  var CLOSE_DELAY = 200;
+  var CLOSE_DELAY = 160;
 
   function closeItem(item) {
     if (!item) { return; }
     item.classList.remove('is-open');
-    var t = item.querySelector('.ds-header__link');
+    var t = item.querySelector('button.ds-header__link');
     if (t) { t.setAttribute('aria-expanded', 'false'); }
   }
 
@@ -914,51 +986,58 @@
     document.getElementById('nav-eshe')
   ];
 
-  ddItems.forEach(function (item) {
+  ddItems.forEach(function(item) {
     if (!item) { return; }
-    var trigger = item.querySelector('.ds-header__link');
-    var closeTimer = null;
+    var trigger = item.querySelector('button.ds-header__link');
+    var timer = null;
 
-    function cancelClose() {
-      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
-    }
-    function scheduleClose() {
-      cancelClose();
-      closeTimer = setTimeout(function() { closeItem(item); }, CLOSE_DELAY);
-    }
+    function cancel() { if (timer) { clearTimeout(timer); timer = null; } }
+    function schedule() { cancel(); timer = setTimeout(function() { closeItem(item); }, CLOSE_DELAY); }
 
-    item.addEventListener('mouseenter', function () {
-      cancelClose();
-      ddItems.forEach(function (o) { if (o !== item) { closeItem(o); } });
+    item.addEventListener('mouseenter', function() {
+      cancel();
+      ddItems.forEach(function(o) { if (o !== item) { closeItem(o); } });
       item.classList.add('is-open');
       trigger.setAttribute('aria-expanded', 'true');
+      fixColors(); /* перефиксируем фон дропдауна при открытии */
     });
-    item.addEventListener('mouseleave', function () {
-      scheduleClose();
-    });
+    item.addEventListener('mouseleave', schedule);
 
     var drop = item.querySelector('.ds-header__drop');
     if (drop) {
-      drop.addEventListener('mouseenter', function () { cancelClose(); });
-      drop.addEventListener('mouseleave', function () { scheduleClose(); });
+      drop.addEventListener('mouseenter', cancel);
+      drop.addEventListener('mouseleave', schedule);
     }
 
-    trigger.addEventListener('click', function (e) {
+    trigger.addEventListener('click', function(e) {
       e.preventDefault();
-      cancelClose();
+      cancel();
       var isOpen = item.classList.toggle('is-open');
       trigger.setAttribute('aria-expanded', String(isOpen));
       if (isOpen) {
-        ddItems.forEach(function (o) { if (o !== item) { closeItem(o); } });
+        ddItems.forEach(function(o) { if (o !== item) { closeItem(o); } });
+        fixColors();
       }
     });
   });
 
-  document.addEventListener('click', function (e) {
+  document.addEventListener('click', function(e) {
     if (!hdr.contains(e.target)) { ddItems.forEach(closeItem); }
   });
-  document.addEventListener('keydown', function (e) {
+  document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') { ddItems.forEach(closeItem); closeDrawer(); }
+  });
+
+  /* ── Accordion (только Ещё — Жильё всегда открыт) ── */
+  hdr.querySelectorAll('.ds-acc-item').forEach(function(acc) {
+    var trig = acc.querySelector('.ds-acc-trigger');
+    if (!trig) { return; }
+    /* Правка 6: ds-acc-body всегда показан — не добавляем toggle для Жильё */
+    if (acc.id === 'mob-zhilye') { return; }
+    trig.addEventListener('click', function() {
+      var isOpen = acc.classList.toggle('is-open');
+      trig.setAttribute('aria-expanded', String(isOpen));
+    });
   });
 })();
 </script>
